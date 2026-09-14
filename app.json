@@ -1,17 +1,11 @@
 {
   "expo": {
-    "name": "arac-takvimi",
+    "name": "Araç Takvimi",
     "slug": "arac-takvimi",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "ios": {
       "supportsTablet": true
     },
@@ -20,11 +14,43 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "@react-native-community/datetimepicker",
+      "expo-notifications",
+      "expo-status-bar",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      "@react-native-vector-icons/material-design-icons",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Park ettiğin yeri kaydetmek için konumun kullanılır."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "b9afeb8e-4e75-4a66-be8c-5c29a307edc4"
+      }
+    },
+    "owner": "firatyaldiz",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/b9afeb8e-4e75-4a66-be8c-5c29a307edc4"
     }
   }
 }

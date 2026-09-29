@@ -8,7 +8,7 @@ import { backupFileName, backupSummary, createBackup, parseBackup } from '../bac
 import { Button } from '../components/Button';
 import { Icon } from '../components/Icon';
 import { Card, SectionHeader } from '../components/ui';
-import { PRIVACY_URL } from '../constants';
+import { PRIVACY_URL, SUPPORT_EMAIL } from '../constants';
 import { FUEL_PRICE_SOURCE } from '../fuel/prices';
 import { useStatusBar } from '../hooks/useStatusBar';
 import type { ScreenProps } from '../navigation';
@@ -120,6 +120,17 @@ export function SettingsScreen(_: ScreenProps<'Settings'>) {
           alınır, yine telefonda saklanır. Uygulama yalnızca güncel akaryakıt fiyatlarını internetten çeker.
         </Text>
         <Button title="Gizlilik politikası" icon="shield-account-outline" variant="secondary" onPress={() => Linking.openURL(PRIVACY_URL)} />
+      </Card>
+
+      <SectionHeader title="Destek" />
+      <Card style={styles.card}>
+        <Text style={styles.body}>Sorun, öneri ve hata bildirimlerini bize yazabilirsin.</Text>
+        <Button
+          title={SUPPORT_EMAIL}
+          icon="email-outline"
+          variant="secondary"
+          onPress={() => Linking.openURL(`mailto:${SUPPORT_EMAIL}?subject=Ara%C3%A7%20Takvimi`)}
+        />
       </Card>
 
       <SectionHeader title="Hakkında" />

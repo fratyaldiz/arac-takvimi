@@ -13,6 +13,7 @@ Bu dosya mağaza formuna girilecek metinleri tutar. Karakter sınırları Apple'
 - **Fiyat:** Ücretsiz
 - **Gizlilik politikası:** https://fratyaldiz.github.io/arac-takvimi-gizlilik/
 - **Destek adresi:** https://fratyaldiz.github.io/arac-takvimi-gizlilik/
+- **Destek e-postası:** aractakvimi.destek@gmail.com
 
 ## Anahtar kelimeler (100 karakter, virgülle, boşluksuz)
 

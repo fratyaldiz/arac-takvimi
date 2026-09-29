@@ -1,4 +1,5 @@
 import type { FuelType } from '../types';
+import { daysBetween, type ISODate } from '../utils/date';
 
 /**
  * UcuzYakıtBul ücretsiz ülke ortalaması: anahtar gerektirmez, ticari kullanım
@@ -43,6 +44,15 @@ export async function fetchFuelPrices(): Promise<FuelPrices> {
   const parsed = parseFuelPrices(await response.json(), new Date());
   if (!parsed) throw new Error('Beklenmeyen yanıt');
   return parsed;
+}
+
+/** Kaynak bu kadar gündür fiyatı tazelemediyse kullanıcıya belirtilir. */
+export const STALE_AFTER_DAYS = 7;
+
+/** Kaynağın verdiği fiyat tarihinin kaç gün öncesine ait olduğu. */
+export function priceAgeDays(data: FuelPrices | null, type: FuelType, today: ISODate): number | null {
+  const date = data?.priceDates[type];
+  return date ? daysBetween(date, today) : null;
 }
 
 export function isStale(data: FuelPrices | null, now: Date): boolean {

@@ -85,6 +85,12 @@ export function formatTR(iso: ISODate): string {
   return `${d} ${MONTHS_TR[m - 1]} ${y}`;
 }
 
+/** "26 Eyl" */
+export function formatShortTR(iso: ISODate): string {
+  const [, m, d] = split(iso);
+  return `${d} ${MONTHS_TR[m - 1].slice(0, 3)}`;
+}
+
 export function weekdayTR(iso: ISODate): string {
   return WEEKDAYS_TR[parseISO(iso).getDay()];
 }

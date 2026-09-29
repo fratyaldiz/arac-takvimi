@@ -11,7 +11,8 @@
       "bundleIdentifier": "com.aractakvimi.app",
       "supportsTablet": false,
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSMotionUsageDescription": "Park ettiğin yeri daha doğru belirlemek için hareket verisi kullanılabilir."
       }
     },
     "android": {

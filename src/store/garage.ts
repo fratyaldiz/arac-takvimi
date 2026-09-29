@@ -45,6 +45,8 @@ interface GarageState extends GarageData {
 
   startParking: (session: ParkingSession) => void;
   endParking: () => void;
+  /** Yedekten geri yükleme: tüm kayıtları değiştirir. */
+  replaceAll: (data: GarageData) => void;
 }
 
 function newId(): string {
@@ -178,6 +180,7 @@ export const useGarage = create<GarageState>()(
 
       startParking: (session) => set({ parking: session }),
       endParking: () => set({ parking: null }),
+      replaceAll: (data) => set({ ...data }),
     }),
     {
       name: 'arac-takvimi',

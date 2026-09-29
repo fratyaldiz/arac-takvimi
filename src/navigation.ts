@@ -19,6 +19,7 @@ export type RootStackParamList = {
   FineForm: { vehicleId?: string };
   Trip: undefined;
   Parking: undefined;
+  Settings: undefined;
 };
 
 export type ScreenProps<T extends keyof RootStackParamList> = NativeStackScreenProps<RootStackParamList, T>;

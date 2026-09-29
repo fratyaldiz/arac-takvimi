@@ -17,6 +17,7 @@ import { GarageScreen } from './src/screens/GarageScreen';
 import { ParkingScreen } from './src/screens/ParkingScreen';
 import { PartFormScreen } from './src/screens/PartFormScreen';
 import { RoadScreen } from './src/screens/RoadScreen';
+import { SettingsScreen } from './src/screens/SettingsScreen';
 import { TripScreen } from './src/screens/TripScreen';
 import { VehicleDetailScreen } from './src/screens/VehicleDetailScreen';
 import { VehicleFormScreen } from './src/screens/VehicleFormScreen';
@@ -109,6 +110,7 @@ export default function App() {
           <Stack.Screen name="FineForm" component={FineFormScreen} options={{ title: 'Trafik cezası' }} />
           <Stack.Screen name="Trip" component={TripScreen} options={{ title: 'Yolculuk maliyeti' }} />
           <Stack.Screen name="Parking" component={ParkingScreen} options={{ title: 'Park ettim' }} />
+          <Stack.Screen name="Settings" component={SettingsScreen} options={{ title: 'Ayarlar' }} />
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar style="light" />

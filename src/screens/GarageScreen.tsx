@@ -5,14 +5,14 @@ import { Button } from '../components/Button';
 import { deadlineBadge } from '../components/deadlineFormat';
 import { Icon, type IconName } from '../components/Icon';
 import { PlateBadge } from '../components/PlateBadge';
-import { GradientHero, screenStyles } from '../components/ui';
+import { GradientHero, ListRow, screenStyles } from '../components/ui';
 import { sumBetween } from '../expenses/stats';
 import { useStatusBar } from '../hooks/useStatusBar';
 import { useToday } from '../hooks/useToday';
 import type { TabProps } from '../navigation';
 import { allDeadlines } from '../rules/schedule';
 import { useGarage } from '../store/garage';
-import { DEADLINE_META, FUEL_LABEL, KIND_LABEL, VEHICLE_GRADIENTS } from '../theme';
+import { colors, DEADLINE_META, FUEL_LABEL, KIND_LABEL, VEHICLE_GRADIENTS } from '../theme';
 import type { Deadline, Vehicle } from '../types';
 import type { ISODate } from '../utils/date';
 import { formatKm, formatTL } from '../utils/money';
@@ -53,6 +53,14 @@ export function GarageScreen({ navigation }: TabProps<'Garaj'>) {
           icon="plus"
           variant={vehicles.length ? 'secondary' : 'primary'}
           onPress={() => navigation.navigate('VehicleForm', {})}
+        />
+        <ListRow
+          icon="cog-outline"
+          iconColor={colors.muted}
+          iconBg={colors.border}
+          title="Ayarlar ve yedekleme"
+          subtitle="Yedek al, yedekten dön, gizlilik ve yasal bilgiler"
+          onPress={() => navigation.navigate('Settings')}
         />
       </View>
     </ScrollView>

@@ -12,6 +12,8 @@ Durum: kod ve mağaza içeriği hazır; kalan adımlar Apple hesabı gerektiriyo
 - [x] Yedekleme (dışa/içe aktarma), Ayarlar ekranı, yasal uyarı
 - [x] Mağaza metinleri: `docs/store-listing.md`
 - [x] Ekran görüntüsü hazırlama betiği: `scripts/make-screenshots.mjs`
+- [x] İlk production build alındı ve App Store Connect'e yüklendi
+      (ASC App ID 6817512595, TestFlight: https://appstoreconnect.apple.com/apps/6817512595/testflight/ios)
 
 ## Kalan adımlar
 

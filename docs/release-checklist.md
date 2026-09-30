@@ -15,9 +15,25 @@ Durum: kod ve mağaza içeriği hazır; kalan adımlar Apple hesabı gerektiriyo
 - [x] İlk production build alındı ve App Store Connect'e yüklendi
       (ASC App ID 6817512595, TestFlight: https://appstoreconnect.apple.com/apps/6817512595/testflight/ios)
 
+## App Store Connect'te doldurulanlar (2026-09-30)
+
+- [x] Ad/alt başlık: Araç Takvimi / Muayene, MTV ve masraf takibi
+- [x] Kategori: Utilities (birincil), Finance (ikincil)
+- [x] İçerik hakları: üçüncü taraf içerik var, haklar mevcut (yakıt fiyatı servisi)
+- [x] Yaş sınırı anketi → 4+ (172 ülke)
+- [x] Gizlilik politikası adresi + "veri toplanmıyor" beyanı yayınlandı
+- [x] Fiyat: ücretsiz, 175 ülkede kullanılabilir
+- [x] Tanıtım metni, açıklama, anahtar kelimeler, destek adresi, telif (İngilizce)
+- [x] Türkçe yerelleştirme eklendi (açıklama + anahtar kelimeler)
+- [x] Build 1 (1.0.0) sürüme eklendi
+- [x] Yayın biçimi: inceleme onayından sonra otomatik
+
 ## Kalan adımlar
 
-1. **Derleme** (Apple girişi tarayıcıda onay ister, bu yüzden Fırat çalıştırır):
+0. **Eksikler:** App Review iletişim telefonu (zorunlu, Fırat verecek) ve
+   ekran görüntüleri (TestFlight sürümünden çekilecek).
+
+1. **Derleme** (tamamlandı, referans için):
    ```
    npx eas-cli build -p ios --profile production
    ```

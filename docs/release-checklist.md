@@ -27,11 +27,13 @@ Durum: kod ve mağaza içeriği hazır; kalan adımlar Apple hesabı gerektiriyo
 - [x] Türkçe yerelleştirme eklendi (açıklama + anahtar kelimeler)
 - [x] Build 1 (1.0.0) sürüme eklendi
 - [x] Yayın biçimi: inceleme onayından sonra otomatik
+- [x] App Review iletişim bilgileri (ad, telefon, e-posta) ve inceleme notları
+- [x] Ekran görüntüleri: TestFlight sürümünden çekildi, 1242x2688 (6.5") olarak
+      markalı tuvale yerleştirilip yüklendi (5 adet)
 
 ## Kalan adımlar
 
-0. **Eksikler:** App Review iletişim telefonu (zorunlu, Fırat verecek) ve
-   ekran görüntüleri (TestFlight sürümünden çekilecek).
+0. **Kalan tek adım:** "Add for Review" ile incelemeye gönderme (Fırat onayıyla).
 
 1. **Derleme** (tamamlandı, referans için):
    ```

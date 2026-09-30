@@ -14,9 +14,9 @@ const BRAND_2 = '#7C3AED';
 
 const CAPTIONS = [
   'Muayene, sigorta ve\nMTV tarihini kaçırma',
-  'Aracının tüm masrafı\ntek yerde',
-  'Yakıt tüketimini\nkendisi hesaplasın',
-  'Km’ye bağlı bakım\ntakibi',
+  'Araçların ve son\ntarihleri tek yerde',
+  'Yakıt ve masraf takibi,\naylık özet',
+  'Aracını bir kez tanımla,\ngerisini o hesaplasın',
   'Güncel yakıt fiyatı,\notopark ve yolculuk',
 ];
 

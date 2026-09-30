@@ -33,7 +33,11 @@ Durum: kod ve mağaza içeriği hazır; kalan adımlar Apple hesabı gerektiriyo
 
 ## Kalan adımlar
 
-0. **Kalan tek adım:** "Add for Review" ile incelemeye gönderme (Fırat onayıyla).
+0. **DURUM: 30 Eylül 2026 08:19 itibarıyla incelemeye gönderildi (Waiting for Review).**
+   Apple genelde 48 saat içinde dönüyor; sonuç e-postayla geliyor. Onaylanırsa
+   sürüm otomatik yayına girer.
+   Not: "Sign-in required" kutusu varsayılan işaretli geliyordu, demo hesap
+   istediği için gönderimi engelledi; kaldırıldı.
 
 1. **Derleme** (tamamlandı, referans için):
    ```

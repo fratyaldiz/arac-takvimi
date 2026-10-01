@@ -77,10 +77,19 @@ Durum: kod ve mağaza içeriği hazır; kalan adımlar Apple hesabı gerektiriyo
       (anket + IARC), hedef kitle 18+, veri güvenliği "veri toplanmıyor",
       resmi kurum değil, finans özelliği yok, sağlık özelliği yok
 - [x] Mağaza ayarları: kategori Otomobil ve Araçlar, destek e-postası, web sitesi
+- [x] Kapalı test (Alpha) kanalı kurulumu 2/4: ülke = Türkiye, test kullanıcıları seçildi
+      - Yeni e-posta listesi "Araç Takvimi testçileri" (firatylz18@gmail.com,
+        aractakvimi.destek@gmail.com) + hesapta var olan "Test" listesi (21 kişi)
+        işaretlendi → 23 davetli
+      - Geri bildirim adresi: aractakvimi.destek@gmail.com
 - [ ] **AAB yükleme (Fırat yapacak):** dosya arac-takvimi.aab (61 MB).
       Play Console > Test edin ve yayınlayın > Kapalı test > Yeni sürüm oluştur >
       dosyayı sürükle. Sürüm notu: "İlk sürüm."
-- [ ] **12 test kullanıcısı e-postası** (Kapalı test > Testçiler > e-posta listesi)
+      Tarayıcı aracıyla yüklenemiyor: dosya eklenti sınırı 10 MB, dosyayı herkese
+      açık bir adrese koymak güvenlik politikasıyla engelli.
+- [ ] Sürümü önizle/onayla ve Google'a gönder (AAB yüklendikten sonra açılır)
+- [ ] Test kullanıcıları katılım bağlantısını açıp kaydolmalı — panoda hâlâ
+      "0 test kullanıcısı kayıtlı"; 12 kayıtlı kullanıcı şartı buradan sayılıyor
 - [ ] 14 gün kesintisiz kapalı test, sonra üretim erişimi başvurusu
 
 ## Sürüm 1.1 planı

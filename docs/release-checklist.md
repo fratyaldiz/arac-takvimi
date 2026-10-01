@@ -77,7 +77,7 @@ Durum: kod ve mağaza içeriği hazır; kalan adımlar Apple hesabı gerektiriyo
       (anket + IARC), hedef kitle 18+, veri güvenliği "veri toplanmıyor",
       resmi kurum değil, finans özelliği yok, sağlık özelliği yok
 - [x] Mağaza ayarları: kategori Otomobil ve Araçlar, destek e-postası, web sitesi
-- [ ] **AAB yükleme (Fırat yapacak):** dosya  (61 MB).
+- [ ] **AAB yükleme (Fırat yapacak):** dosya arac-takvimi.aab (61 MB).
       Play Console > Test edin ve yayınlayın > Kapalı test > Yeni sürüm oluştur >
       dosyayı sürükle. Sürüm notu: "İlk sürüm."
 - [ ] **12 test kullanıcısı e-postası** (Kapalı test > Testçiler > e-posta listesi)

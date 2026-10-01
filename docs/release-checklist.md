@@ -67,6 +67,22 @@ Durum: kod ve mağaza içeriği hazır; kalan adımlar Apple hesabı gerektiriyo
 
 6. **İncelemeye gönder.** Apple genelde 1-3 gün içinde döner.
 
+## Google Play durumu (1 Ekim 2026)
+
+- [x] Uygulama kaydı: Araç Takvimi, com.aractakvimi.app, Türkçe, ücretsiz
+- [x] Mağaza girişi: kısa/tam açıklama, 512 ikon, 1024x500 öne çıkan görsel,
+      5 ekran görüntüsü (Play 9:16 ister → 1242x2208 üretildi)
+- [x] Tüm uygulama içeriği beyanları: gizlilik politikası, reklam yok,
+      reklam kimliği yok, uygulama erişimi kısıtsız, içerik derecelendirme
+      (anket + IARC), hedef kitle 18+, veri güvenliği "veri toplanmıyor",
+      resmi kurum değil, finans özelliği yok, sağlık özelliği yok
+- [x] Mağaza ayarları: kategori Otomobil ve Araçlar, destek e-postası, web sitesi
+- [ ] **AAB yükleme (Fırat yapacak):** dosya  (61 MB).
+      Play Console > Test edin ve yayınlayın > Kapalı test > Yeni sürüm oluştur >
+      dosyayı sürükle. Sürüm notu: "İlk sürüm."
+- [ ] **12 test kullanıcısı e-postası** (Kapalı test > Testçiler > e-posta listesi)
+- [ ] 14 gün kesintisiz kapalı test, sonra üretim erişimi başvurusu
+
 ## Sürüm 1.1 planı
 
 - İl bazlı yakıt fiyatı (ücretli API + Cloudflare Worker proxy)

@@ -6,9 +6,11 @@ import { readdirSync, mkdirSync } from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
 
-const WIDTH = 1290;
-const HEIGHT = 2796;
-const SHOT_WIDTH = 1010;
+// Ölçü argümanla değiştirilebilir: App Store 1242x2688, Play en fazla 1:2 oran ister.
+const [, , , , widthArg, heightArg] = process.argv;
+const WIDTH = Number(widthArg) || 1290;
+const HEIGHT = Number(heightArg) || 2796;
+const SHOT_WIDTH = Math.round(WIDTH * 0.78);
 const BRAND = '#2563EB';
 const BRAND_2 = '#7C3AED';
 

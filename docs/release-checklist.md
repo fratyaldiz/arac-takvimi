@@ -33,7 +33,23 @@ Durum: kod ve mağaza içeriği hazır; kalan adımlar Apple hesabı gerektiriyo
 
 ## Kalan adımlar
 
-0. **DURUM: 30 Eylül 2026 08:19 itibarıyla incelemeye gönderildi (Waiting for Review).**
+0. **DURUM: 2 Ekim 2026'da yeniden incelemeye gönderildi (Waiting for Review).**
+
+   Birinci gönderim 1 Ekim 08:01'de reddedildi: **Guideline 2.1 - Information
+   Needed - New App Submission**. Uygulamada kusur bulunmadı; yeni geliştirici
+   hesabı olduğu için ek bilgi istendi (fiziksel cihazda ekran kaydı + amaç,
+   kullanım talimatı, dış servisler, bölgesel fark, düzenleme/üçüncü taraf
+   içerik). Yapılanlar:
+   - 2-6. maddelerin yanıtı App Review Information > Notes alanına yazıldı (3032 karakter)
+   - Ekran kaydı iPhone'da TestFlight derlemesiyle çekildi, Drive'da herkese açık
+     bağlantıyla paylaşıldı, Resolution Center yanıtında verildi
+   - Yanıt 4000 karakterle sınırlı; metin 3957 karaktere kısaltıldı
+   - Rejected sürüm doğrudan "Resubmit" edilemiyor: önce sürüm sayfasındaki
+     **Update Review** basılıp durum "Ready for Review" olmalı, sonra
+     **Resubmit to App Review** çalışıyor
+   - Yayın biçimi: onaydan sonra otomatik (AFTER_APPROVAL) olarak kaldı
+
+   Eski kayıt: 30 Eylül 2026 08:19'da ilk kez gönderilmişti.
    Apple genelde 48 saat içinde dönüyor; sonuç e-postayla geliyor. Onaylanırsa
    sürüm otomatik yayına girer.
    Not: "Sign-in required" kutusu varsayılan işaretli geliyordu, demo hesap

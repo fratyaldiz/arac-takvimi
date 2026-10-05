@@ -98,14 +98,19 @@ Durum: kod ve mağaza içeriği hazır; kalan adımlar Apple hesabı gerektiriyo
         aractakvimi.destek@gmail.com) + hesapta var olan "Test" listesi (21 kişi)
         işaretlendi → 23 davetli
       - Geri bildirim adresi: aractakvimi.destek@gmail.com
-- [ ] **AAB yükleme (Fırat yapacak):** dosya arac-takvimi.aab (61 MB).
-      Play Console > Test edin ve yayınlayın > Kapalı test > Yeni sürüm oluştur >
-      dosyayı sürükle. Sürüm notu: "İlk sürüm."
-      Tarayıcı aracıyla yüklenemiyor: dosya eklenti sınırı 10 MB, dosyayı herkese
-      açık bir adrese koymak güvenlik politikasıyla engelli.
-- [ ] Sürümü önizle/onayla ve Google'a gönder (AAB yüklendikten sonra açılır)
-- [ ] Test kullanıcıları katılım bağlantısını açıp kaydolmalı — panoda hâlâ
-      "0 test kullanıcısı kayıtlı"; 12 kayıtlı kullanıcı şartı buradan sayılıyor
+- [x] **AAB yüklendi** (Fırat yükledi, 4 Ekim 2026 20:14): sürüm kodu 2, 1.0.0,
+      hedef SDK 36, API 24+, indirme boyutu 21.7 MB.
+      Not: aynı dosya ikinci kez yüklenince "2 sürüm kodu daha önce kullanıldı"
+      hatası çıkıyor; çözüm dosyayı tekrar yüklemek değil **Kitaplıktan ekle**.
+- [x] Sürüm hazırlandı ve gönderildi (5 Ekim 2026): sürüm adı "2 (1.0.0)",
+      Türkçe sürüm notu girildi, Yayın özetinden 14 değişiklik incelemeye
+      gönderildi. Kanal durumu: **Etkin · 2 (1.0.0) sürümü incelemede · 1 ülke**.
+      Tek uyarı: R8/proguard eşleme (deobfuscation) dosyası yok — engelleyici değil.
+- [ ] Google incelemesi bitip sürüm yayına girince katılım bağlantısı
+      (https://play.google.com/apps/testing/com.aractakvimi.app) etkinleşir;
+      test kullanıcıları bu bağlantıdan kaydolmalı. Panoda hâlâ
+      "0 test kullanıcısı kayıtlı"; 12 **kayıtlı** kullanıcı şartı buradan sayılıyor
+      (davet etmek yetmiyor). Şu an listelerde 23 davetli var.
 - [ ] 14 gün kesintisiz kapalı test, sonra üretim erişimi başvurusu
 
 ## Sürüm 1.1 planı

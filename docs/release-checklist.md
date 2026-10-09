@@ -50,6 +50,11 @@ Durum: kod ve mağaza içeriği hazır; kalan adımlar Apple hesabı gerektiriyo
    - Yayın biçimi: onaydan sonra otomatik (AFTER_APPROVAL) olarak kaldı
 
    Eski kayıt: 30 Eylül 2026 08:19'da ilk kez gönderilmişti.
+
+   9 Ekim 2026: 7 gündür Waiting for Review'da beklediği için Apple'a durum
+   sorgusu açıldı (Contact Us > App Review > App Review Status > Email).
+   **Case ID 102991236675.** Resolution Center'daki mevcut konuya yeni mesaj
+   yazılmadı; sıra kaybı riski olmasın diye ayrı destek kaydı tercih edildi.
    Apple genelde 48 saat içinde dönüyor; sonuç e-postayla geliyor. Onaylanırsa
    sürüm otomatik yayına girer.
    Not: "Sign-in required" kutusu varsayılan işaretli geliyordu, demo hesap

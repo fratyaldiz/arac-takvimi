@@ -5,6 +5,7 @@ import * as Sharing from 'expo-sharing';
 import { useState } from 'react';
 import { Alert, Linking, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { backupFileName, backupSummary, createBackup, parseBackup } from '../backup/backup';
+import { csvFileName, expensesToCsv } from '../backup/csv';
 import { Button } from '../components/Button';
 import { Icon } from '../components/Icon';
 import { Card, SectionHeader } from '../components/ui';
@@ -46,6 +47,34 @@ export function SettingsScreen({ navigation }: ScreenProps<'Settings'>) {
       }
     } catch {
       Alert.alert('Yedek alınamadı', 'Dosya oluşturulurken bir sorun oldu. Tekrar dene.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const exportCsv = async () => {
+    if (!pro) {
+      navigation.navigate('Pro', { trigger: 'export' });
+      return;
+    }
+    if (!expenses.length) {
+      Alert.alert('Masraf yok', 'Dışa aktarılacak masraf kaydı bulunamadı.');
+      return;
+    }
+    setBusy(true);
+    try {
+      const now = new Date();
+      const file = new File(Paths.cache, csvFileName(now));
+      if (file.exists) file.delete();
+      file.create();
+      file.write(expensesToCsv(expenses, vehicles));
+      if (await Sharing.isAvailableAsync()) {
+        await Sharing.shareAsync(file.uri, { mimeType: 'text/csv', dialogTitle: 'Masraflar (CSV)' });
+      } else {
+        Alert.alert('Dosya hazır', `CSV oluşturuldu: ${file.uri}`);
+      }
+    } catch {
+      Alert.alert('Dışa aktarılamadı', 'Dosya oluşturulurken bir sorun oldu. Tekrar dene.');
     } finally {
       setBusy(false);
     }
@@ -110,6 +139,20 @@ export function SettingsScreen({ navigation }: ScreenProps<'Settings'>) {
         <Text style={styles.summary}>Şu an: {backupSummary(data)}</Text>
         <Button title="Yedek dosyası oluştur" icon="tray-arrow-down" onPress={exportBackup} disabled={busy} />
         <Button title="Yedekten geri yükle" icon="tray-arrow-up" variant="secondary" onPress={importBackup} disabled={busy} />
+      </Card>
+
+      <SectionHeader title="Dışa aktarma" />
+      <Card style={styles.card}>
+        <Text style={styles.body}>
+          Masraf kayıtlarını CSV olarak çıkar, Excel ya da Numbers'da aç. Türkçe Excel için noktalı virgülle ayrılır.
+        </Text>
+        <Button
+          title={pro ? 'Masrafları CSV olarak aktar' : 'CSV dışa aktarma (Pro)'}
+          icon="table-arrow-right"
+          variant="secondary"
+          onPress={exportCsv}
+          disabled={busy}
+        />
       </Card>
 
       <SectionHeader title="Bilgi kaynakları" />

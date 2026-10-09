@@ -106,6 +106,9 @@ Durum: kod ve mağaza içeriği hazır; kalan adımlar Apple hesabı gerektiriyo
       Türkçe sürüm notu girildi, Yayın özetinden 14 değişiklik incelemeye
       gönderildi. Kanal durumu: **Etkin · 2 (1.0.0) sürümü incelemede · 1 ülke**.
       Tek uyarı: R8/proguard eşleme (deobfuscation) dosyası yok — engelleyici değil.
+- [x] Google incelemesi geçildi (9 Ekim 2026): kanal "Etkin · Son sürüm 2 (1.0.0) · 1 ülke".
+      Katılım bağlantısı: https://play.google.com/apps/testing/com.aractakvimi.app
+      Kayıtlı test kullanıcısı: 1 / 12
 - [ ] Google incelemesi bitip sürüm yayına girince katılım bağlantısı
       (https://play.google.com/apps/testing/com.aractakvimi.app) etkinleşir;
       test kullanıcıları bu bağlantıdan kaydolmalı. Panoda hâlâ

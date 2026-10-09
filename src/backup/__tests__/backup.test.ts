@@ -7,6 +7,7 @@ const data: GarageData = {
   expenses: [],
   parts: [],
   fines: [],
+  documents: [],
   parking: null,
 };
 
@@ -26,7 +27,7 @@ describe('yedek dosyası', () => {
   });
 
   it('özet kayıt sayılarını verir', () => {
-    expect(backupSummary(data)).toBe('1 araç · 0 masraf · 0 bakım kalemi · 0 ceza');
+    expect(backupSummary(data)).toBe('1 araç · 0 masraf · 0 bakım kalemi · 0 ceza · 0 belge');
   });
 
   it('eski sürüm yedeği taşınır', () => {

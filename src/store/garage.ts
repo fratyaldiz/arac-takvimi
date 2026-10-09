@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { applyCompletion, finePayableAmount } from '../rules/schedule';
-import type { Deadline, Expense, ParkingSession, PartItem, TrafficFine, Vehicle } from '../types';
+import type { Deadline, Expense, ParkingSession, PartItem, TrafficFine, Vehicle, VehicleDocument } from '../types';
 import { todayISO, type ISODate } from '../utils/date';
 import { GARAGE_STORE_VERSION, migrateGarage } from './migrate';
 
@@ -11,12 +11,14 @@ export type VehicleInput = Omit<Vehicle, 'id' | 'createdAt' | 'mtvPaid' | 'tireD
 export type ExpenseInput = Omit<Expense, 'id'>;
 export type PartInput = Omit<PartItem, 'id'>;
 export type FineInput = Omit<TrafficFine, 'id' | 'paidDate' | 'paidAmount'>;
+export type DocumentInput = Omit<VehicleDocument, 'id' | 'addedAt'>;
 
 export interface GarageData {
   vehicles: Vehicle[];
   expenses: Expense[];
   parts: PartItem[];
   fines: TrafficFine[];
+  documents: VehicleDocument[];
   parking: ParkingSession | null;
 }
 
@@ -42,6 +44,9 @@ interface GarageState extends GarageData {
   removeFine: (id: string) => void;
   /** Cezayı ödendi işaretler ve ödenen tutarı masraf olarak kaydeder. */
   payFine: (id: string, paidDate: ISODate, amount: number) => void;
+
+  addDocument: (input: DocumentInput) => string;
+  removeDocument: (id: string) => void;
 
   startParking: (session: ParkingSession) => void;
   endParking: () => void;
@@ -71,6 +76,7 @@ export const useGarage = create<GarageState>()(
       expenses: [],
       parts: [],
       fines: [],
+      documents: [],
       parking: null,
 
       addVehicle: (input) => {
@@ -89,6 +95,7 @@ export const useGarage = create<GarageState>()(
           expenses: s.expenses.filter((e) => e.vehicleId !== id),
           parts: s.parts.filter((p) => p.vehicleId !== id),
           fines: s.fines.filter((f) => f.vehicleId !== id),
+          documents: s.documents.filter((d) => d.vehicleId !== id),
           parking: s.parking?.vehicleId === id ? null : s.parking,
         })),
       completeDeadline: (deadline, doneDate) =>
@@ -178,6 +185,13 @@ export const useGarage = create<GarageState>()(
           };
         }),
 
+      addDocument: (input) => {
+        const id = newId();
+        set((s) => ({ documents: [...s.documents, { ...input, id, addedAt: todayISO() }] }));
+        return id;
+      },
+      removeDocument: (id) => set((s) => ({ documents: s.documents.filter((d) => d.id !== id) })),
+
       startParking: (session) => set({ parking: session }),
       endParking: () => set({ parking: null }),
       replaceAll: (data) => set({ ...data }),
@@ -186,7 +200,14 @@ export const useGarage = create<GarageState>()(
       name: 'arac-takvimi',
       version: GARAGE_STORE_VERSION,
       storage: createJSONStorage(() => AsyncStorage),
-      partialize: ({ vehicles, expenses, parts, fines, parking }): GarageData => ({ vehicles, expenses, parts, fines, parking }),
+      partialize: ({ vehicles, expenses, parts, fines, documents, parking }): GarageData => ({
+        vehicles,
+        expenses,
+        parts,
+        fines,
+        documents,
+        parking,
+      }),
       migrate: migrateGarage,
     },
   ),

@@ -100,6 +100,20 @@ export interface TrafficFine {
   paidAmount: number | null;
 }
 
+export type DocumentKind = 'ruhsat' | 'police' | 'muayene' | 'fatura' | 'diger';
+
+export interface VehicleDocument {
+  id: string;
+  vehicleId: string;
+  kind: DocumentKind;
+  label: string;
+  /** Uygulama klasöründeki dosya adı; tam yol çalışma anında kurulur. */
+  fileName: string;
+  mimeType: string;
+  sizeBytes: number | null;
+  addedAt: ISODate;
+}
+
 export interface ParkingSession {
   vehicleId: string | null;
   /** ISO tarih-saat */

@@ -1,7 +1,7 @@
 import { VEHICLE_COLOR_KEYS, type Vehicle } from '../types';
 import type { GarageData } from './garage';
 
-export const GARAGE_STORE_VERSION = 2;
+export const GARAGE_STORE_VERSION = 3;
 
 /** v1 aracında olmayan alanlar */
 type VehicleV1 = Omit<Vehicle, 'fuelType' | 'color' | 'odometerKm'> & Partial<Vehicle>;
@@ -23,6 +23,7 @@ export function migrateGarage(persisted: unknown, version: number): GarageData {
       expenses: [],
       parts: [],
       fines: [],
+      documents: [],
       parking: null,
     };
   }
@@ -31,6 +32,7 @@ export function migrateGarage(persisted: unknown, version: number): GarageData {
     expenses: state.expenses ?? [],
     parts: state.parts ?? [],
     fines: state.fines ?? [],
+    documents: state.documents ?? [],
     parking: state.parking ?? null,
   };
 }

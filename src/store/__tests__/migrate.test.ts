@@ -22,7 +22,7 @@ describe('kayıt taşıma', () => {
   it('v1 aracı korunur, yeni alanlar varsayılan alır', () => {
     const data = migrateGarage({ vehicles: [v1Vehicle] }, 1);
     expect(data.vehicles[0]).toEqual({ ...v1Vehicle, fuelType: 'benzin', color: 'mavi', odometerKm: null });
-    expect(data).toMatchObject({ expenses: [], parts: [], fines: [], parking: null });
+    expect(data).toMatchObject({ expenses: [], parts: [], fines: [], documents: [], parking: null });
   });
 
   it('birden çok araca farklı renk verir', () => {
@@ -32,7 +32,18 @@ describe('kayıt taşıma', () => {
 
   it('boş ya da bozuk kayıttan boş garaj çıkar', () => {
     expect(migrateGarage(undefined, 1).vehicles).toEqual([]);
-    expect(migrateGarage(null, 2)).toEqual({ vehicles: [], expenses: [], parts: [], fines: [], parking: null });
+    expect(migrateGarage(null, 2)).toEqual({ vehicles: [], expenses: [], parts: [], fines: [], documents: [], parking: null });
+  });
+
+  it('v2 kayıtları korunur, belge listesi boş eklenir', () => {
+    const v2 = {
+      vehicles: [{ ...v1Vehicle, fuelType: 'motorin', color: 'yesil', odometerKm: 90000 }],
+      expenses: [{ id: 'e1' }],
+      parts: [],
+      fines: [],
+      parking: null,
+    };
+    expect(migrateGarage(v2, 2)).toEqual({ ...v2, documents: [] });
   });
 
   it('güncel sürüm verisine dokunmaz', () => {
@@ -41,8 +52,9 @@ describe('kayıt taşıma', () => {
       expenses: [{ id: 'e1' }],
       parts: [],
       fines: [],
+      documents: [{ id: 'd1', vehicleId: 'abc', kind: 'ruhsat' }],
       parking: null,
     };
-    expect(migrateGarage(current, 2)).toEqual(current);
+    expect(migrateGarage(current, 3)).toEqual(current);
   });
 });

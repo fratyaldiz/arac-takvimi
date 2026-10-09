@@ -27,6 +27,8 @@ import {
   NEEDS_DATE,
 } from '../rules/schedule';
 import { useGarage } from '../store/garage';
+import { useIsPro } from '../store/pro';
+import { deleteDocumentFile } from '../documents/files';
 import { colors, EXPENSE_META, FUEL_LABEL, KIND_LABEL, PART_ICON, radius, shadow, STATUS_COLORS, VEHICLE_GRADIENTS } from '../theme';
 import type { Deadline, DeadlineKind, PartItem } from '../types';
 import { formatTR, type ISODate } from '../utils/date';
@@ -79,6 +81,9 @@ export function VehicleDetailScreen({ navigation, route }: ScreenProps<'VehicleD
   const payFine = useGarage((s) => s.payFine);
   const setOdometer = useGarage((s) => s.setOdometer);
   const removeVehicle = useGarage((s) => s.removeVehicle);
+  const vehicleDocuments = useGarage((s) => s.documents.filter((d) => d.vehicleId === id));
+  const documentCount = vehicleDocuments.length;
+  const pro = useIsPro();
   const today = useToday();
   const insets = useSafeAreaInsets();
   const sheet = useSheet();
@@ -135,17 +140,23 @@ export function VehicleDetailScreen({ navigation, route }: ScreenProps<'VehicleD
   };
 
   const confirmDelete = () =>
-    Alert.alert('Aracı sil', `${vehicle.plate} ve tüm kayıtları (masraf, parça, ceza) silinsin mi? Bu işlem geri alınamaz.`, [
-      { text: 'Vazgeç', style: 'cancel' },
-      {
-        text: 'Sil',
-        style: 'destructive',
-        onPress: () => {
-          removeVehicle(id);
-          navigation.goBack();
+    Alert.alert(
+      'Aracı sil',
+      `${vehicle.plate} ve tüm kayıtları (masraf, parça, ceza, belge) silinsin mi? Bu işlem geri alınamaz.`,
+      [
+        { text: 'Vazgeç', style: 'cancel' },
+        {
+          text: 'Sil',
+          style: 'destructive',
+          onPress: () => {
+            // Kayıtla birlikte belge dosyaları da gider; yoksa klasörde çöp kalır.
+            for (const doc of vehicleDocuments) deleteDocumentFile(doc.fileName);
+            removeVehicle(id);
+            navigation.goBack();
+          },
         },
-      },
-    ]);
+      ],
+    );
 
   const quickActions: { icon: IconName; label: string; color: string; onPress: () => void }[] = [
     {
@@ -250,6 +261,24 @@ export function VehicleDetailScreen({ navigation, route }: ScreenProps<'VehicleD
             })}
           </>
         ) : null}
+
+        <SectionHeader title="Belgeler" />
+        <ListRow
+          icon="file-document-multiple-outline"
+          iconColor={colors.primary}
+          iconBg={colors.primarySoft}
+          title="Belge cüzdanı"
+          subtitle={
+            pro
+              ? documentCount
+                ? `${documentCount} belge saklı`
+                : 'Ruhsat, poliçe ve muayene belgesini ekle'
+              : 'Pro: ruhsat, poliçe ve muayene belgesini sakla'
+          }
+          onPress={() =>
+            pro ? navigation.navigate('Documents', { vehicleId: id }) : navigation.navigate('Pro', { trigger: 'documents' })
+          }
+        />
 
         <SectionHeader title="Parça ve bakım" action={{ label: 'Ekle', onPress: () => navigation.navigate('PartForm', { vehicleId: id }) }} />
         {parts.length === 0 ? (

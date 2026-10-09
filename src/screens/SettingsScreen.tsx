@@ -24,12 +24,13 @@ export function SettingsScreen({ navigation }: ScreenProps<'Settings'>) {
   const expenses = useGarage((s) => s.expenses);
   const parts = useGarage((s) => s.parts);
   const fines = useGarage((s) => s.fines);
+  const documents = useGarage((s) => s.documents);
   const parking = useGarage((s) => s.parking);
   const replaceAll = useGarage((s) => s.replaceAll);
   const pro = useIsPro();
   const [busy, setBusy] = useState(false);
 
-  const data = { vehicles, expenses, parts, fines, parking };
+  const data = { vehicles, expenses, parts, fines, documents, parking };
   const version = Constants.expoConfig?.version ?? '1.0.0';
 
   const exportBackup = async () => {

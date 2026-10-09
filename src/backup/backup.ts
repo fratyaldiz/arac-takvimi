@@ -3,7 +3,7 @@ import type { GarageData } from '../store/garage';
 
 export const BACKUP_FORMAT = 'arac-takvimi-yedek';
 /** Kayıt şemasıyla aynı sürüm; eski yedekler taşıma kodundan geçirilir. */
-export const BACKUP_VERSION = 2;
+export const BACKUP_VERSION = 3;
 
 export interface BackupFile {
   format: string;
@@ -27,6 +27,7 @@ export function backupSummary(data: GarageData): string {
     `${data.expenses.length} masraf`,
     `${data.parts.length} bakım kalemi`,
     `${data.fines.length} ceza`,
+    `${data.documents.length} belge`,
   ];
   return parts.join(' · ');
 }

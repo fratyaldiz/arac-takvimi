@@ -12,6 +12,7 @@ import { syncNotifications } from './src/notifications/scheduler';
 import { CalendarScreen } from './src/screens/CalendarScreen';
 import { ExpenseFormScreen } from './src/screens/ExpenseFormScreen';
 import { ExpensesScreen } from './src/screens/ExpensesScreen';
+import { DocumentsScreen } from './src/screens/DocumentsScreen';
 import { FineFormScreen } from './src/screens/FineFormScreen';
 import { GarageScreen } from './src/screens/GarageScreen';
 import { ParkingScreen } from './src/screens/ParkingScreen';
@@ -113,6 +114,7 @@ export default function App() {
           <Stack.Screen name="Trip" component={TripScreen} options={{ title: 'Yolculuk maliyeti' }} />
           <Stack.Screen name="Parking" component={ParkingScreen} options={{ title: 'Park ettim' }} />
           <Stack.Screen name="Settings" component={SettingsScreen} options={{ title: 'Ayarlar' }} />
+          <Stack.Screen name="Documents" component={DocumentsScreen} options={{ title: 'Belgeler' }} />
           <Stack.Screen name="Report" component={ReportScreen} options={{ title: 'Masraf raporu' }} />
           <Stack.Screen name="Pro" component={ProScreen} options={{ title: 'Araç Takvimi Pro' }} />
         </Stack.Navigator>

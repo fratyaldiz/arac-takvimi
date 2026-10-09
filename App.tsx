@@ -16,6 +16,7 @@ import { FineFormScreen } from './src/screens/FineFormScreen';
 import { GarageScreen } from './src/screens/GarageScreen';
 import { ParkingScreen } from './src/screens/ParkingScreen';
 import { ProScreen } from './src/screens/ProScreen';
+import { ReportScreen } from './src/screens/ReportScreen';
 import { PartFormScreen } from './src/screens/PartFormScreen';
 import { RoadScreen } from './src/screens/RoadScreen';
 import { SettingsScreen } from './src/screens/SettingsScreen';
@@ -112,6 +113,7 @@ export default function App() {
           <Stack.Screen name="Trip" component={TripScreen} options={{ title: 'Yolculuk maliyeti' }} />
           <Stack.Screen name="Parking" component={ParkingScreen} options={{ title: 'Park ettim' }} />
           <Stack.Screen name="Settings" component={SettingsScreen} options={{ title: 'Ayarlar' }} />
+          <Stack.Screen name="Report" component={ReportScreen} options={{ title: 'Masraf raporu' }} />
           <Stack.Screen name="Pro" component={ProScreen} options={{ title: 'Araç Takvimi Pro' }} />
         </Stack.Navigator>
       </NavigationContainer>

@@ -3,12 +3,13 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { BarChart } from '../components/BarChart';
 import { Button } from '../components/Button';
 import { ExpenseRow } from '../components/ExpenseRow';
-import { Card, ChipRow, EmptyHint, GradientHero, SectionHeader, screenStyles } from '../components/ui';
+import { Card, ChipRow, EmptyHint, GradientHero, ListRow, SectionHeader, screenStyles } from '../components/ui';
 import { categoryTotals, fuelConsumption, monthlyTotals, sumBetween } from '../expenses/stats';
 import { useStatusBar } from '../hooks/useStatusBar';
 import { useToday } from '../hooks/useToday';
 import type { TabProps } from '../navigation';
 import { useGarage } from '../store/garage';
+import { useIsPro } from '../store/pro';
 import { colors, EXPENSE_META } from '../theme';
 import type { Expense, ExpenseCategory } from '../types';
 import { addDays, addMonths, formatMonthTR } from '../utils/date';
@@ -19,6 +20,7 @@ export function ExpensesScreen({ navigation }: TabProps<'Masraflar'>) {
   const vehicles = useGarage((s) => s.vehicles);
   const expenses = useGarage((s) => s.expenses);
   const today = useToday();
+  const pro = useIsPro();
   const [filter, setFilter] = useState('all');
   const selected = filter === 'all' ? null : (vehicles.find((v) => v.id === filter) ?? null);
 
@@ -92,6 +94,15 @@ export function ExpensesScreen({ navigation }: TabProps<'Masraflar'>) {
                 <Button title="Masraf ekle" icon="plus" variant="secondary" onPress={() => add('bakim')} />
               </View>
             </View>
+
+            <ListRow
+              icon="chart-box-outline"
+              iconColor={colors.primary}
+              iconBg={colors.primarySoft}
+              title="Masraf raporu"
+              subtitle={pro ? 'Dönem, kategori ve km başına maliyet' : 'Pro: dönem, kategori ve km başına maliyet'}
+              onPress={() => (pro ? navigation.navigate('Report') : navigation.navigate('Pro', { trigger: 'report' }))}
+            />
 
             {consumptionRows.length > 0 ? (
               <Card style={styles.gap}>

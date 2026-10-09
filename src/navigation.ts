@@ -1,6 +1,7 @@
 import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import type { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { ProTrigger } from './pro/features';
 import type { ExpenseCategory } from './types';
 
 export type TabParamList = {
@@ -20,6 +21,7 @@ export type RootStackParamList = {
   Trip: undefined;
   Parking: undefined;
   Settings: undefined;
+  Pro: { trigger?: ProTrigger } | undefined;
 };
 
 export type ScreenProps<T extends keyof RootStackParamList> = NativeStackScreenProps<RootStackParamList, T>;

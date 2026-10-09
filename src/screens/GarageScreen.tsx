@@ -10,8 +10,10 @@ import { sumBetween } from '../expenses/stats';
 import { useStatusBar } from '../hooks/useStatusBar';
 import { useToday } from '../hooks/useToday';
 import type { TabProps } from '../navigation';
+import { vehicleLimitReached } from '../pro/gate';
 import { allDeadlines } from '../rules/schedule';
 import { useGarage } from '../store/garage';
+import { useIsPro } from '../store/pro';
 import { colors, DEADLINE_META, FUEL_LABEL, KIND_LABEL, VEHICLE_GRADIENTS } from '../theme';
 import type { Deadline, Vehicle } from '../types';
 import type { ISODate } from '../utils/date';
@@ -23,6 +25,7 @@ export function GarageScreen({ navigation }: TabProps<'Garaj'>) {
   const parts = useGarage((s) => s.parts);
   const fines = useGarage((s) => s.fines);
   const expenses = useGarage((s) => s.expenses);
+  const pro = useIsPro();
   const today = useToday();
   const deadlines = useMemo(() => allDeadlines(vehicles, today, { parts, fines }), [vehicles, parts, fines, today]);
   const monthStart = `${today.slice(0, 7)}-01`;
@@ -52,8 +55,22 @@ export function GarageScreen({ navigation }: TabProps<'Garaj'>) {
           title="Araç ekle"
           icon="plus"
           variant={vehicles.length ? 'secondary' : 'primary'}
-          onPress={() => navigation.navigate('VehicleForm', {})}
+          onPress={() =>
+            vehicleLimitReached(vehicles.length, pro)
+              ? navigation.navigate('Pro', { trigger: 'vehicle' })
+              : navigation.navigate('VehicleForm', {})
+          }
         />
+        {!pro ? (
+          <ListRow
+            icon="star-four-points"
+            iconColor={colors.primary}
+            iconBg={colors.primarySoft}
+            title="Araç Takvimi Pro"
+            subtitle="Sınırsız araç, belge cüzdanı, masraf raporu"
+            onPress={() => navigation.navigate('Pro', { trigger: 'settings' })}
+          />
+        ) : null}
         <ListRow
           icon="cog-outline"
           iconColor={colors.muted}

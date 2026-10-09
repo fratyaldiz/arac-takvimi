@@ -14,9 +14,10 @@ import { useStatusBar } from '../hooks/useStatusBar';
 import type { ScreenProps } from '../navigation';
 import { syncNotifications } from '../notifications/scheduler';
 import { useGarage } from '../store/garage';
+import { useIsPro } from '../store/pro';
 import { colors, radius, shadow } from '../theme';
 
-export function SettingsScreen(_: ScreenProps<'Settings'>) {
+export function SettingsScreen({ navigation }: ScreenProps<'Settings'>) {
   useStatusBar('dark');
   const vehicles = useGarage((s) => s.vehicles);
   const expenses = useGarage((s) => s.expenses);
@@ -24,6 +25,7 @@ export function SettingsScreen(_: ScreenProps<'Settings'>) {
   const fines = useGarage((s) => s.fines);
   const parking = useGarage((s) => s.parking);
   const replaceAll = useGarage((s) => s.replaceAll);
+  const pro = useIsPro();
   const [busy, setBusy] = useState(false);
 
   const data = { vehicles, expenses, parts, fines, parking };
@@ -85,6 +87,21 @@ export function SettingsScreen(_: ScreenProps<'Settings'>) {
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+      <SectionHeader title="Araç Takvimi Pro" />
+      <Card style={styles.card}>
+        <Text style={styles.body}>
+          {pro
+            ? 'Pro senin. Sınırsız araç, belge cüzdanı, masraf raporu ve CSV dışa aktarma açık.'
+            : 'Tek seferlik ödemeyle sınırsız araç, belge cüzdanı, masraf raporu ve CSV dışa aktarma.'}
+        </Text>
+        <Button
+          title={pro ? 'Pro ayrıntıları' : 'Pro’yu incele'}
+          icon="star-four-points"
+          variant={pro ? 'secondary' : 'primary'}
+          onPress={() => navigation.navigate('Pro', { trigger: 'settings' })}
+        />
+      </Card>
+
       <SectionHeader title="Yedekleme" />
       <Card style={styles.card}>
         <Text style={styles.body}>

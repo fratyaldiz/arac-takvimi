@@ -65,8 +65,9 @@ export function FuelPriceTiles() {
       ) : null}
 
       <View style={styles.footer}>
-        <Text style={styles.source} numberOfLines={2}>
-          {error && !data ? error : `${FUEL_PRICE_SOURCE}${data ? ` · ${checkedAtText(data.fetchedAt)}` : ''}`}
+        {/* Hata eski fiyat dururken de yazılır; yoksa yenileme çalışmıyor sanılıyor. */}
+        <Text style={[styles.source, error ? styles.sourceError : null]} numberOfLines={2}>
+          {error ?? `${FUEL_PRICE_SOURCE}${data ? ` · ${checkedAtText(data.fetchedAt)}` : ''}`}
         </Text>
         <Pressable onPress={() => refresh(true)} hitSlop={10} disabled={loading}>
           {loading ? <ActivityIndicator size="small" color={colors.primary} /> : <Icon name="refresh" size={20} color={colors.primary} />}
@@ -132,5 +133,9 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 12,
     color: colors.muted,
+  },
+  sourceError: {
+    color: colors.danger,
+    fontWeight: '600',
   },
 });

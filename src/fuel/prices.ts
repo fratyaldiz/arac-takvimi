@@ -38,8 +38,27 @@ export function parseFuelPrices(json: unknown, fetchedAt: Date): FuelPrices | nu
   return Object.values(result.prices).some((p) => p !== null) ? result : null;
 }
 
+/** Mobil ağda istek asılı kalabiliyor; bu süre dolunca iptal edilir. */
+export const FUEL_PRICE_TIMEOUT_MS = 12_000;
+
+export class FuelTimeoutError extends Error {
+  constructor() {
+    super('Zaman aşımı');
+    this.name = 'FuelTimeoutError';
+  }
+}
+
 export async function fetchFuelPrices(): Promise<FuelPrices> {
-  const response = await fetch(FUEL_PRICE_URL, { headers: { Accept: 'application/json' } });
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FUEL_PRICE_TIMEOUT_MS);
+  let response: Response;
+  try {
+    response = await fetch(FUEL_PRICE_URL, { headers: { Accept: 'application/json' }, signal: controller.signal });
+  } catch (error) {
+    throw controller.signal.aborted ? new FuelTimeoutError() : (error as Error);
+  } finally {
+    clearTimeout(timer);
+  }
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   const parsed = parseFuelPrices(await response.json(), new Date());
   if (!parsed) throw new Error('Beklenmeyen yanıt');

@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import { fetchFuelPrices, isStale, type FuelPrices } from '../fuel/prices';
+import { fetchFuelPrices, FuelTimeoutError, isStale, type FuelPrices } from '../fuel/prices';
 
 interface FuelState {
   data: FuelPrices | null;
@@ -18,13 +18,22 @@ export const useFuelPrices = create<FuelState>()(
       loading: false,
       error: null,
       refresh: async (force = false) => {
-        if (get().loading) return;
+        // Elle yenilemede bekleyen istek varsa da devam edilir: eski sürümde
+        // asılı kalan bir istek loading'i kilitleyip yenilemeyi tamamen durduruyordu.
+        if (get().loading && !force) return;
         if (!force && !isStale(get().data, new Date())) return;
         set({ loading: true, error: null });
         try {
-          set({ data: await fetchFuelPrices(), loading: false });
-        } catch {
-          set({ loading: false, error: 'Fiyatlar alınamadı. İnternet bağlantını kontrol et.' });
+          set({ data: await fetchFuelPrices(), error: null });
+        } catch (error) {
+          set({
+            error:
+              error instanceof FuelTimeoutError
+                ? 'Fiyat servisi yanıt vermedi. Biraz sonra tekrar dene.'
+                : 'Fiyatlar alınamadı. İnternet bağlantını kontrol et.',
+          });
+        } finally {
+          set({ loading: false });
         }
       },
     }),

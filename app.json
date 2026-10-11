@@ -13,7 +13,8 @@
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "NSMotionUsageDescription": "Park ettiğin yeri daha doğru belirlemek için hareket verisi kullanılabilir."
-      }
+      },
+      "appStoreUrl": "https://apps.apple.com/tr/app/id6817512595"
     },
     "android": {
       "package": "com.aractakvimi.app",
@@ -25,7 +26,8 @@
       "blockedPermissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_BACKGROUND_LOCATION"
-      ]
+      ],
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=com.aractakvimi.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"

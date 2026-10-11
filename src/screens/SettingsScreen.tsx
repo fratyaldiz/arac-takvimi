@@ -3,19 +3,20 @@ import * as DocumentPicker from 'expo-document-picker';
 import { File, Paths } from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { useState } from 'react';
-import { Alert, Linking, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Linking, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { backupFileName, backupSummary, createBackup, parseBackup } from '../backup/backup';
 import { csvFileName, expensesToCsv } from '../backup/csv';
 import { Button } from '../components/Button';
 import { Icon } from '../components/Icon';
 import { Card, SectionHeader } from '../components/ui';
-import { PRIVACY_URL, SUPPORT_EMAIL } from '../constants';
+import { APP_STORE_REVIEW_URL, PLAY_STORE_REVIEW_URL, PRIVACY_URL, SUPPORT_EMAIL } from '../constants';
 import { FUEL_PRICE_SOURCE } from '../fuel/prices';
 import { useStatusBar } from '../hooks/useStatusBar';
 import type { ScreenProps } from '../navigation';
 import { syncNotifications } from '../notifications/scheduler';
 import { useGarage } from '../store/garage';
 import { useIsPro } from '../store/pro';
+import { useReview } from '../store/review';
 import { colors, radius, shadow } from '../theme';
 
 export function SettingsScreen({ navigation }: ScreenProps<'Settings'>) {
@@ -28,6 +29,7 @@ export function SettingsScreen({ navigation }: ScreenProps<'Settings'>) {
   const parking = useGarage((s) => s.parking);
   const replaceAll = useGarage((s) => s.replaceAll);
   const pro = useIsPro();
+  const dismissReview = useReview((s) => s.dismiss);
   const [busy, setBusy] = useState(false);
 
   const data = { vehicles, expenses, parts, fines, documents, parking };
@@ -181,6 +183,23 @@ export function SettingsScreen({ navigation }: ScreenProps<'Settings'>) {
           alınır, yine telefonda saklanır. Uygulama yalnızca güncel akaryakıt fiyatlarını internetten çeker.
         </Text>
         <Button title="Gizlilik politikası" icon="shield-account-outline" variant="secondary" onPress={() => Linking.openURL(PRIVACY_URL)} />
+      </Card>
+
+      <SectionHeader title="Puan ver" />
+      <Card style={styles.card}>
+        <Text style={styles.body}>
+          Uygulamayı beğendiysen mağazada puan vermen çok iyi olur; yeni kullanıcılar için tek referans o puanlar.
+          Bir sorun varsa önce bize yaz, düzeltelim.
+        </Text>
+        <Button
+          title="Mağazada puan ver"
+          icon="star-outline"
+          onPress={() => {
+            // Elle basılan düğme sistem penceresini açamaz (Apple kuralı); mağaza sayfası açılır.
+            dismissReview();
+            Linking.openURL(Platform.OS === 'ios' ? APP_STORE_REVIEW_URL : PLAY_STORE_REVIEW_URL);
+          }}
+        />
       </Card>
 
       <SectionHeader title="Destek" />

@@ -26,6 +26,7 @@ import { VehicleDetailScreen } from './src/screens/VehicleDetailScreen';
 import { VehicleFormScreen } from './src/screens/VehicleFormScreen';
 import { useFuelPrices } from './src/store/fuel';
 import { useGarage, useHydrated } from './src/store/garage';
+import { useReview } from './src/store/review';
 import { colors } from './src/theme';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -89,6 +90,10 @@ export default function App() {
   useEffect(() => {
     useFuelPrices.getState().refresh();
   }, [today]);
+
+  useEffect(() => {
+    if (hydrated) useReview.getState().registerLaunch();
+  }, [hydrated]);
 
   if (!hydrated) return <View style={{ flex: 1, backgroundColor: colors.bg }} />;
 

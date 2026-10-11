@@ -28,6 +28,7 @@ import {
 } from '../rules/schedule';
 import { useGarage } from '../store/garage';
 import { useIsPro } from '../store/pro';
+import { useReview } from '../store/review';
 import { deleteDocumentFile } from '../documents/files';
 import { colors, EXPENSE_META, FUEL_LABEL, KIND_LABEL, PART_ICON, radius, shadow, STATUS_COLORS, VEHICLE_GRADIENTS } from '../theme';
 import type { Deadline, DeadlineKind, PartItem } from '../types';
@@ -84,6 +85,7 @@ export function VehicleDetailScreen({ navigation, route }: ScreenProps<'VehicleD
   const vehicleDocuments = useGarage((s) => s.documents.filter((d) => d.vehicleId === id));
   const documentCount = vehicleDocuments.length;
   const pro = useIsPro();
+  const askForReview = useReview((s) => s.askIfDue);
   const today = useToday();
   const insets = useSafeAreaInsets();
   const sheet = useSheet();
@@ -121,7 +123,14 @@ export function VehicleDetailScreen({ navigation, route }: ScreenProps<'VehicleD
     if (!NEEDS_DATE[deadline.kind]) {
       Alert.alert(deadline.title, confirmText(deadline), [
         { text: 'Vazgeç', style: 'cancel' },
-        { text: COMPLETE_LABEL[deadline.kind], onPress: () => completeDeadline(deadline, today) },
+        {
+          text: COMPLETE_LABEL[deadline.kind],
+          onPress: () => {
+            completeDeadline(deadline, today);
+            // Puan isteği yalnız kullanıcı bir işi bitirdikten sonra sorulur.
+            askForReview();
+          },
+        },
       ]);
       return;
     }
@@ -135,6 +144,7 @@ export function VehicleDetailScreen({ navigation, route }: ScreenProps<'VehicleD
         completeDeadline(deadline, done);
         const next = computeDeadlines(applyCompletion(vehicle, deadline, done), today).find((d) => d.kind === deadline.kind);
         if (next?.due) alertLater('Kaydedildi', `${NEXT_LABEL[deadline.kind]}: ${formatTR(next.due)}`);
+        askForReview();
       },
     });
   };

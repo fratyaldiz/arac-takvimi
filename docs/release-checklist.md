@@ -1,6 +1,13 @@
 # App Store yayın adımları
 
-Durum: kod ve mağaza içeriği hazır; kalan adımlar Apple hesabı gerektiriyor.
+**DURUM: 11 Ekim 2026 22:13'te App Store'da YAYINDA.**
+https://apps.apple.com/tr/app/ara%C3%A7-takvimi/id6817512595
+Sürüm 1.0 (build 1.0.0 (1)), ücretsiz, Utilities + Finance, 4+, iOS 16.4+, 36,5 MB.
+ASC durumu: "Ready for Distribution".
+
+1.1 için not: mağaza sayfasında "Languages: English" yazıyor. Mağaza metinleri
+Türkçe ama uygulama paketi dil listesi (CFBundleLocalizations) boş; app.json'a
+Türkçe eklenirse sayfada Türkçe görünür.
 
 ## Tamamlananlar
 

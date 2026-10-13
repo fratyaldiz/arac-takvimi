@@ -2,7 +2,7 @@
   "expo": {
     "name": "Araç Takvimi",
     "slug": "arac-takvimi",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -12,7 +12,11 @@
       "supportsTablet": false,
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
-        "NSMotionUsageDescription": "Park ettiğin yeri daha doğru belirlemek için hareket verisi kullanılabilir."
+        "NSMotionUsageDescription": "Park ettiğin yeri daha doğru belirlemek için hareket verisi kullanılabilir.",
+        "CFBundleDevelopmentRegion": "tr",
+        "CFBundleLocalizations": [
+          "tr"
+        ]
       },
       "appStoreUrl": "https://apps.apple.com/tr/app/id6817512595"
     },

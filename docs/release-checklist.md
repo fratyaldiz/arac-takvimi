@@ -5,7 +5,17 @@ https://apps.apple.com/tr/app/ara%C3%A7-takvimi/id6817512595
 Sürüm 1.0 (build 1.0.0 (1)), ücretsiz, Utilities + Finance, 4+, iOS 16.4+, 36,5 MB.
 ASC durumu: "Ready for Distribution".
 
-## 1.1 — 15 Ekim 2026'da incelemeye gönderildi (Waiting for Review)
+## 1.1 — 15 Ekim 2026, build 4 ile incelemede (Waiting for Review)
+
+Build 3 ile gönderilen ilk 1.1, inceleme başlamadan geri çekildi (Cancel
+Submission → "Developer Rejected"). Sebep: satın alma kapalıyken Pro kapısı
+açıktı; ücretsiz araç sınırı 1.0'a göre geri gidişti ve paywall'daki düğme
+pasif olduğu için Guideline 2.1 ret riski vardı. `PRO_VISIBLE` bayrağıyla
+Pro'nun tüm izleri gizlendi (commit 851f338), build 4 alınıp sürüme eklendi
+ve 1.1 yeniden gönderildi.
+
+ASC notu: sürüme bağlı build'i değiştirmek için satırdaki Delete'e basıp
+Add Build'den yenisini seç, sonra **Save** — Save'e basılmazsa eski build geri gelir.
 
 Build 1.1.0 (3) EAS ile derlendi (`--non-interactive`, Apple girişi gerekmedi;
 EAS'teki sertifika/profil kullanıldı, 23 Eylül 2027'ye kadar geçerli),

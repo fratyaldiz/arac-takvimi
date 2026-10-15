@@ -5,7 +5,14 @@ https://apps.apple.com/tr/app/ara%C3%A7-takvimi/id6817512595
 Sürüm 1.0 (build 1.0.0 (1)), ücretsiz, Utilities + Finance, 4+, iOS 16.4+, 36,5 MB.
 ASC durumu: "Ready for Distribution".
 
-## 1.1 (hazır, derleme bekliyor)
+## 1.1 — 15 Ekim 2026'da incelemeye gönderildi (Waiting for Review)
+
+Build 1.1.0 (3) EAS ile derlendi (`--non-interactive`, Apple girişi gerekmedi;
+EAS'teki sertifika/profil kullanıldı, 23 Eylül 2027'ye kadar geçerli),
+`eas submit` ile yüklendi, ASC'de 1.1 sürümü açılıp iki dilde "Neler yeni"
+girildi, build eklendi ve gönderildi.
+
+## 1.1 içeriği
 
 Sürüm numarası 1.1.0'a çekildi, Türkçe dil etiketi eklendi
 (`CFBundleDevelopmentRegion: tr`, `CFBundleLocalizations: ["tr"]`) — 1.0'da

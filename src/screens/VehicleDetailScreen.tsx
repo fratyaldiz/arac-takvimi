@@ -26,6 +26,7 @@ import {
   intervalText,
   NEEDS_DATE,
 } from '../rules/schedule';
+import { PRO_VISIBLE } from '../pro/gate';
 import { useGarage } from '../store/garage';
 import { useIsPro } from '../store/pro';
 import { useReview } from '../store/review';
@@ -272,23 +273,29 @@ export function VehicleDetailScreen({ navigation, route }: ScreenProps<'VehicleD
           </>
         ) : null}
 
-        <SectionHeader title="Belgeler" />
-        <ListRow
-          icon="file-document-multiple-outline"
-          iconColor={colors.primary}
-          iconBg={colors.primarySoft}
-          title="Belge cüzdanı"
-          subtitle={
-            pro
-              ? documentCount
-                ? `${documentCount} belge saklı`
-                : 'Ruhsat, poliçe ve muayene belgesini ekle'
-              : 'Pro: ruhsat, poliçe ve muayene belgesini sakla'
-          }
-          onPress={() =>
-            pro ? navigation.navigate('Documents', { vehicleId: id }) : navigation.navigate('Pro', { trigger: 'documents' })
-          }
-        />
+        {PRO_VISIBLE ? (
+          <>
+            <SectionHeader title="Belgeler" />
+            <ListRow
+              icon="file-document-multiple-outline"
+              iconColor={colors.primary}
+              iconBg={colors.primarySoft}
+              title="Belge cüzdanı"
+              subtitle={
+                pro
+                  ? documentCount
+                    ? `${documentCount} belge saklı`
+                    : 'Ruhsat, poliçe ve muayene belgesini ekle'
+                  : 'Pro: ruhsat, poliçe ve muayene belgesini sakla'
+              }
+              onPress={() =>
+                pro
+                  ? navigation.navigate('Documents', { vehicleId: id })
+                  : navigation.navigate('Pro', { trigger: 'documents' })
+              }
+            />
+          </>
+        ) : null}
 
         <SectionHeader title="Parça ve bakım" action={{ label: 'Ekle', onPress: () => navigation.navigate('PartForm', { vehicleId: id }) }} />
         {parts.length === 0 ? (

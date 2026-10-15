@@ -8,6 +8,7 @@ import { categoryTotals, fuelConsumption, monthlyTotals, sumBetween } from '../e
 import { useStatusBar } from '../hooks/useStatusBar';
 import { useToday } from '../hooks/useToday';
 import type { TabProps } from '../navigation';
+import { PRO_VISIBLE } from '../pro/gate';
 import { useGarage } from '../store/garage';
 import { useIsPro } from '../store/pro';
 import { colors, EXPENSE_META } from '../theme';
@@ -95,14 +96,16 @@ export function ExpensesScreen({ navigation }: TabProps<'Masraflar'>) {
               </View>
             </View>
 
-            <ListRow
-              icon="chart-box-outline"
-              iconColor={colors.primary}
-              iconBg={colors.primarySoft}
-              title="Masraf raporu"
-              subtitle={pro ? 'Dönem, kategori ve km başına maliyet' : 'Pro: dönem, kategori ve km başına maliyet'}
-              onPress={() => (pro ? navigation.navigate('Report') : navigation.navigate('Pro', { trigger: 'report' }))}
-            />
+            {PRO_VISIBLE ? (
+              <ListRow
+                icon="chart-box-outline"
+                iconColor={colors.primary}
+                iconBg={colors.primarySoft}
+                title="Masraf raporu"
+                subtitle={pro ? 'Dönem, kategori ve km başına maliyet' : 'Pro: dönem, kategori ve km başına maliyet'}
+                onPress={() => (pro ? navigation.navigate('Report') : navigation.navigate('Pro', { trigger: 'report' }))}
+              />
+            ) : null}
 
             {consumptionRows.length > 0 ? (
               <Card style={styles.gap}>

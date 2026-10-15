@@ -10,7 +10,7 @@ import { sumBetween } from '../expenses/stats';
 import { useStatusBar } from '../hooks/useStatusBar';
 import { useToday } from '../hooks/useToday';
 import type { TabProps } from '../navigation';
-import { vehicleLimitReached } from '../pro/gate';
+import { PRO_VISIBLE, vehicleLimitReached } from '../pro/gate';
 import { allDeadlines } from '../rules/schedule';
 import { useGarage } from '../store/garage';
 import { useIsPro } from '../store/pro';
@@ -61,7 +61,7 @@ export function GarageScreen({ navigation }: TabProps<'Garaj'>) {
               : navigation.navigate('VehicleForm', {})
           }
         />
-        {!pro ? (
+        {PRO_VISIBLE && !pro ? (
           <ListRow
             icon="star-four-points"
             iconColor={colors.primary}

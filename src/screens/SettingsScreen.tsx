@@ -14,6 +14,7 @@ import { FUEL_PRICE_SOURCE } from '../fuel/prices';
 import { useStatusBar } from '../hooks/useStatusBar';
 import type { ScreenProps } from '../navigation';
 import { syncNotifications } from '../notifications/scheduler';
+import { PRO_VISIBLE } from '../pro/gate';
 import { useGarage } from '../store/garage';
 import { useIsPro } from '../store/pro';
 import { useReview } from '../store/review';
@@ -119,20 +120,24 @@ export function SettingsScreen({ navigation }: ScreenProps<'Settings'>) {
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <SectionHeader title="Araç Takvimi Pro" />
-      <Card style={styles.card}>
-        <Text style={styles.body}>
-          {pro
-            ? 'Pro senin. Sınırsız araç, belge cüzdanı, masraf raporu ve CSV dışa aktarma açık.'
-            : 'Tek seferlik ödemeyle sınırsız araç, belge cüzdanı, masraf raporu ve CSV dışa aktarma.'}
-        </Text>
-        <Button
-          title={pro ? 'Pro ayrıntıları' : 'Pro’yu incele'}
-          icon="star-four-points"
-          variant={pro ? 'secondary' : 'primary'}
-          onPress={() => navigation.navigate('Pro', { trigger: 'settings' })}
-        />
-      </Card>
+      {PRO_VISIBLE ? (
+        <>
+          <SectionHeader title="Araç Takvimi Pro" />
+          <Card style={styles.card}>
+            <Text style={styles.body}>
+              {pro
+                ? 'Pro senin. Sınırsız araç, belge cüzdanı, masraf raporu ve CSV dışa aktarma açık.'
+                : 'Tek seferlik ödemeyle sınırsız araç, belge cüzdanı, masraf raporu ve CSV dışa aktarma.'}
+            </Text>
+            <Button
+              title={pro ? 'Pro ayrıntıları' : 'Pro’yu incele'}
+              icon="star-four-points"
+              variant={pro ? 'secondary' : 'primary'}
+              onPress={() => navigation.navigate('Pro', { trigger: 'settings' })}
+            />
+          </Card>
+        </>
+      ) : null}
 
       <SectionHeader title="Yedekleme" />
       <Card style={styles.card}>
@@ -144,19 +149,23 @@ export function SettingsScreen({ navigation }: ScreenProps<'Settings'>) {
         <Button title="Yedekten geri yükle" icon="tray-arrow-up" variant="secondary" onPress={importBackup} disabled={busy} />
       </Card>
 
-      <SectionHeader title="Dışa aktarma" />
-      <Card style={styles.card}>
-        <Text style={styles.body}>
-          Masraf kayıtlarını CSV olarak çıkar, Excel ya da Numbers'da aç. Türkçe Excel için noktalı virgülle ayrılır.
-        </Text>
-        <Button
-          title={pro ? 'Masrafları CSV olarak aktar' : 'CSV dışa aktarma (Pro)'}
-          icon="table-arrow-right"
-          variant="secondary"
-          onPress={exportCsv}
-          disabled={busy}
-        />
-      </Card>
+      {PRO_VISIBLE ? (
+        <>
+          <SectionHeader title="Dışa aktarma" />
+          <Card style={styles.card}>
+            <Text style={styles.body}>
+              Masraf kayıtlarını CSV olarak çıkar, Excel ya da Numbers'da aç. Türkçe Excel için noktalı virgülle ayrılır.
+            </Text>
+            <Button
+              title={pro ? 'Masrafları CSV olarak aktar' : 'CSV dışa aktarma (Pro)'}
+              icon="table-arrow-right"
+              variant="secondary"
+              onPress={exportCsv}
+              disabled={busy}
+            />
+          </Card>
+        </>
+      ) : null}
 
       <SectionHeader title="Bilgi kaynakları" />
       <Card style={styles.card}>

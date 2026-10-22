@@ -9,6 +9,7 @@ import { ChipRow, TextField } from '../components/ui';
 import { fuelConsumption, tripCost } from '../expenses/stats';
 import { useStatusBar } from '../hooks/useStatusBar';
 import type { ScreenProps } from '../navigation';
+import { effectivePrice } from '../fuel/manual';
 import { useFuelPrices } from '../store/fuel';
 import { useGarage } from '../store/garage';
 import { colors, FUEL_LABEL, radius, shadow } from '../theme';
@@ -21,7 +22,8 @@ export function TripScreen(_: ScreenProps<'Trip'>) {
   useStatusBar('dark');
   const vehicles = useGarage((s) => s.vehicles);
   const expenses = useGarage((s) => s.expenses);
-  const prices = useFuelPrices((s) => s.data?.prices);
+  const priceData = useFuelPrices((s) => s.data);
+  const manualPrices = useFuelPrices((s) => s.manual);
   const refreshPrices = useFuelPrices((s) => s.refresh);
   const insets = useSafeAreaInsets();
 
@@ -41,7 +43,7 @@ export function TripScreen(_: ScreenProps<'Trip'>) {
   const [people, setPeople] = useState(1);
   const priceTouched = useRef(false);
   const consTouched = useRef(false);
-  const livePrice = prices?.[fuelType] ?? null;
+  const livePrice = effectivePrice(manualPrices, priceData, fuelType);
 
   useEffect(() => {
     refreshPrices();

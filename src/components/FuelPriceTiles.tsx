@@ -1,6 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
+import { effectivePrice, isManual } from '../fuel/manual';
 import { FUEL_PRICE_SOURCE, priceAgeDays, STALE_AFTER_DAYS } from '../fuel/prices';
 import { useToday } from '../hooks/useToday';
 import { useFuelPrices } from '../store/fuel';
@@ -9,6 +10,7 @@ import type { FuelType } from '../types';
 import { formatShortTR } from '../utils/date';
 import { formatNumberTR } from '../utils/money';
 import { Icon } from './Icon';
+import { useSheet } from './Sheet';
 
 const ORDER: FuelType[] = ['benzin', 'motorin', 'lpg'];
 
@@ -26,7 +28,10 @@ export function FuelPriceTiles() {
   const loading = useFuelPrices((s) => s.loading);
   const error = useFuelPrices((s) => s.error);
   const refresh = useFuelPrices((s) => s.refresh);
+  const manual = useFuelPrices((s) => s.manual);
+  const setManualPrice = useFuelPrices((s) => s.setManualPrice);
   const today = useToday();
+  const sheet = useSheet();
 
   useEffect(() => {
     refresh();
@@ -34,33 +39,45 @@ export function FuelPriceTiles() {
 
   // Kaynak her yakıtı ayrı günlerde tazeliyor; eskiyeni ayrıca belirtilir.
   const stale = ORDER.map((type) => ({ type, age: priceAgeDays(data, type, today) })).filter(
-    (item): item is { type: FuelType; age: number } => item.age !== null && item.age > STALE_AFTER_DAYS,
+    (item): item is { type: FuelType; age: number } => !isManual(manual, item.type) && item.age !== null && item.age > STALE_AFTER_DAYS,
   );
+
+  const edit = (type: FuelType) =>
+    sheet.open({
+      title: `${FUEL_LABEL[type]} fiyatın`,
+      subtitle: 'Pompada gördüğün fiyatı yaz; hesaplarda bu kullanılır. Kaynağın tahminine dönmek için 0 yaz.',
+      amount: { label: 'TL / litre', initial: effectivePrice(manual, data, type) },
+      submitLabel: 'Kaydet',
+      onSubmit: ({ amount }) => setManualPrice(type, amount),
+    });
 
   return (
     <View style={styles.wrap}>
       <View style={styles.tiles}>
         {ORDER.map((type) => {
-          const price = data?.prices[type] ?? null;
+          const price = effectivePrice(manual, data, type);
+          const own = isManual(manual, type);
           const date = data?.priceDates[type];
           return (
-            <LinearGradient key={type} colors={FUEL_COLORS[type]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.tile}>
-              <View style={styles.tileTop}>
-                <Icon name="gas-station" size={18} color="#FFFFFF" />
-                <Text style={styles.tileLabel}>{FUEL_LABEL[type]}</Text>
-              </View>
-              <Text style={styles.price}>{price !== null ? formatNumberTR(price, 2) : '—'}</Text>
-              <Text style={styles.unit}>TL / litre</Text>
-              {date ? <Text style={styles.date}>{formatShortTR(date)}</Text> : null}
-            </LinearGradient>
+            <Pressable key={type} style={styles.tileWrap} onPress={() => edit(type)}>
+              <LinearGradient colors={FUEL_COLORS[type]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.tile}>
+                <View style={styles.tileTop}>
+                  <Icon name="gas-station" size={18} color="#FFFFFF" />
+                  <Text style={styles.tileLabel}>{FUEL_LABEL[type]}</Text>
+                </View>
+                <Text style={styles.price}>{price !== null ? formatNumberTR(price, 2) : '—'}</Text>
+                <Text style={styles.unit}>TL / litre</Text>
+                <Text style={styles.date}>{own ? 'senin fiyatın' : date ? formatShortTR(date) : 'tahmin'}</Text>
+              </LinearGradient>
+            </Pressable>
           );
         })}
       </View>
 
       {stale.length > 0 ? (
         <Text style={styles.stale}>
-          {stale.map((s) => `${FUEL_LABEL[s.type]} fiyatı ${s.age} gün önce güncellenmiş`).join(', ')}. Kaynak daha yeni veri
-          vermiyor; pompadaki fiyat farklı olabilir.
+          {stale.map((s) => `${FUEL_LABEL[s.type]} fiyatı ${s.age} gün önce güncellenmiş`).join(', ')}. Karta dokunup kendi
+          fiyatını girebilirsin.
         </Text>
       ) : null}
 
@@ -73,6 +90,7 @@ export function FuelPriceTiles() {
           {loading ? <ActivityIndicator size="small" color={colors.primary} /> : <Icon name="refresh" size={20} color={colors.primary} />}
         </Pressable>
       </View>
+      {sheet.element}
     </View>
   );
 }
@@ -85,8 +103,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
   },
-  tile: {
+  tileWrap: {
     flex: 1,
+  },
+  tile: {
     borderRadius: 18,
     padding: 12,
     gap: 2,

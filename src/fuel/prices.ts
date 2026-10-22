@@ -6,7 +6,7 @@ import { daysBetween, type ISODate } from '../utils/date';
  * serbest. İl bazlı veri ücretli uçlarda.
  */
 export const FUEL_PRICE_URL = 'https://ucuzyakitbul.com.tr/api/prices/national';
-export const FUEL_PRICE_SOURCE = 'UcuzYakıtBul · ülke ortalaması';
+export const FUEL_PRICE_SOURCE = 'UcuzYakıtBul · tahmini ülke ortalaması (pompadan farklı olabilir)';
 
 /** Fiyatlar günde birkaç kez değişebilir; 6 saatten eski veri tazelenir. */
 export const FUEL_PRICE_TTL_MS = 6 * 60 * 60 * 1000;

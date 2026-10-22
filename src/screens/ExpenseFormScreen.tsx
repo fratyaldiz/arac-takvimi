@@ -10,6 +10,7 @@ import { ChipRow, TextField } from '../components/ui';
 import { useStatusBar } from '../hooks/useStatusBar';
 import { useToday } from '../hooks/useToday';
 import type { ScreenProps } from '../navigation';
+import { effectivePrice } from '../fuel/manual';
 import { useFuelPrices } from '../store/fuel';
 import { useGarage, type ExpenseInput } from '../store/garage';
 import { colors, EXPENSE_META, FUEL_LABEL, radius, shadow } from '../theme';
@@ -31,7 +32,8 @@ export function ExpenseFormScreen({ navigation, route }: ScreenProps<'ExpenseFor
   const addExpense = useGarage((s) => s.addExpense);
   const updateExpense = useGarage((s) => s.updateExpense);
   const removeExpense = useGarage((s) => s.removeExpense);
-  const prices = useFuelPrices((s) => s.data?.prices);
+  const priceData = useFuelPrices((s) => s.data);
+  const manualPrices = useFuelPrices((s) => s.manual);
   const refreshPrices = useFuelPrices((s) => s.refresh);
   const today = useToday();
   const insets = useSafeAreaInsets();
@@ -50,7 +52,7 @@ export function ExpenseFormScreen({ navigation, route }: ScreenProps<'ExpenseFor
   /** Kullanıcı fiyatı elle değiştirdiyse güncel fiyat üzerine yazılmaz. */
   const priceTouched = useRef(Boolean(existing?.fuel));
   const isFuel = category === 'yakit';
-  const livePrice = prices?.[fuelType] ?? null;
+  const livePrice = effectivePrice(manualPrices, priceData, fuelType);
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: existing ? 'Kaydı düzenle' : isFuel ? 'Yakıt alımı' : 'Yeni masraf' });

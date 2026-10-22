@@ -1,12 +1,17 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
+import { isValidManualPrice, type ManualPrices } from '../fuel/manual';
 import { fetchFuelPrices, FuelTimeoutError, isStale, type FuelPrices } from '../fuel/prices';
+import type { FuelType } from '../types';
 
 interface FuelState {
   data: FuelPrices | null;
   loading: boolean;
   error: string | null;
+  /** Kullanıcının kendi girdiği pompa fiyatları; kaynaktan önceliklidir. */
+  manual: ManualPrices;
+  setManualPrice: (type: FuelType, price: number | null) => void;
   /** Veri bayatsa (ya da force ile her durumda) fiyatları yeniden çeker. */
   refresh: (force?: boolean) => Promise<void>;
 }
@@ -17,6 +22,14 @@ export const useFuelPrices = create<FuelState>()(
       data: null,
       loading: false,
       error: null,
+      manual: {},
+      setManualPrice: (type, price) =>
+        set((s) => {
+          const manual = { ...s.manual };
+          if (price === null || !isValidManualPrice(price)) delete manual[type];
+          else manual[type] = price;
+          return { manual };
+        }),
       refresh: async (force = false) => {
         // Elle yenilemede bekleyen istek varsa da devam edilir: eski sürümde
         // asılı kalan bir istek loading'i kilitleyip yenilemeyi tamamen durduruyordu.
@@ -40,7 +53,7 @@ export const useFuelPrices = create<FuelState>()(
     {
       name: 'arac-takvimi-yakit',
       storage: createJSONStorage(() => AsyncStorage),
-      partialize: (s) => ({ data: s.data }),
+      partialize: (s) => ({ data: s.data, manual: s.manual }),
     },
   ),
 );

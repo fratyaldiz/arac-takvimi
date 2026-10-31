@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Button } from '../components/Button';
 import { DeadlineRow } from '../components/DeadlineRow';
 import { Icon, type IconName } from '../components/Icon';
+import { NotificationWarning } from '../components/NotificationWarning';
 import { GradientHero, HeroStat, IconBadge, SectionHeader, screenStyles } from '../components/ui';
 import { useStatusBar } from '../hooks/useStatusBar';
 import { useToday } from '../hooks/useToday';
@@ -61,6 +62,7 @@ export function CalendarScreen({ navigation }: TabProps<'Takvim'>) {
       </GradientHero>
 
       <View style={screenStyles.content}>
+        <NotificationWarning />
         <SectionHeader title="Yaklaşanlar" />
         {upcoming.length === 0 ? (
           <Text style={styles.empty}>

@@ -5,6 +5,19 @@ https://apps.apple.com/tr/app/ara%C3%A7-takvimi/id6817512595
 Sürüm 1.0 (build 1.0.0 (1)), ücretsiz, Utilities + Finance, 4+, iOS 16.4+, 36,5 MB.
 ASC durumu: "Ready for Distribution".
 
+## 1.2 — 14 Kasım 2026'da incelemeye gönderildi (Waiting for Review)
+
+Build 5 (1.2.0) 31 Ekim'de derlenmişti ama gönderilmeden kalmıştı; 14 Kasım'da
+`eas submit` ile yüklenip ASC'de 1.2 sürümü açıldı, iki dilde "Neler yeni" ve
+tanıtım metni girildi, build eklendi ve incelemeye gönderildi.
+
+İçeriği:
+- Yakıt fiyatını elle girme (kaynak benzinde ~8 TL sapıyordu, kendi sitesiyle
+  bile tutmuyordu; artık "tahmini ülke ortalaması" etiketli, kullanıcının
+  girdiği fiyat hesaplarda öncelikli)
+- Bildirim izni kapalıyken takvimde kırmızı uyarı şeridi (izin reddedilince
+  hatırlatmalar sessizce hiç kurulmuyordu)
+
 ## 1.1 — 15 Ekim 2026, build 4 ile incelemede (Waiting for Review)
 
 Build 3 ile gönderilen ilk 1.1, inceleme başlamadan geri çekildi (Cancel

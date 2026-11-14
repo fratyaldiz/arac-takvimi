@@ -9,7 +9,7 @@ import { ChipRow, TextField } from '../components/ui';
 import { fuelConsumption, tripCost } from '../expenses/stats';
 import { useStatusBar } from '../hooks/useStatusBar';
 import type { ScreenProps } from '../navigation';
-import { effectivePrice } from '../fuel/manual';
+import { effectivePrice, isManual } from '../fuel/manual';
 import { useFuelPrices } from '../store/fuel';
 import { useGarage } from '../store/garage';
 import { colors, FUEL_LABEL, radius, shadow } from '../theme';
@@ -132,7 +132,13 @@ export function TripScreen(_: ScreenProps<'Trip'>) {
           keyboardType="decimal-pad"
           suffix="TL/L"
           placeholder="0"
-          hint={livePrice ? `Güncel ülke ortalaması ${formatNumberTR(livePrice, 2)} TL.` : undefined}
+          hint={
+            livePrice
+              ? isManual(manualPrices, fuelType)
+                ? `Senin girdiğin fiyat: ${formatNumberTR(livePrice, 2)} TL.`
+                : `Tahmini ülke ortalaması ${formatNumberTR(livePrice, 2)} TL.`
+              : undefined
+          }
         />
         <TextField
           label="Köprü / otoyol (tek yön)"

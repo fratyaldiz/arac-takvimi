@@ -58,9 +58,19 @@ function newId(): string {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 }
 
-/** Plakalarda noktalı İ yok; Türkçe klavyeden gelen "i" de "I" olmalı. */
+/**
+ * Plakalarda noktalı İ yok; Türkçe klavyeden gelen "i" de "I" olmalı.
+ * Bazı klavyeler/yapıştırmalar noktayı ayrı birleşim karakteri (U+0307) olarak
+ * gönderiyor; önce NFC ile birleştirilir, kalan birleşim işaretleri atılır.
+ */
 export function normalizePlate(plate: string): string {
-  return plate.toUpperCase().replace(/İ/g, 'I').replace(/\s+/g, ' ').trim();
+  return plate
+    .normalize('NFC')
+    .toUpperCase()
+    .replace(/İ/g, 'I')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 /** Yeni km okuması eskisinden büyükse aracın km'sini ilerletir. */

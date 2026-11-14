@@ -1,6 +1,6 @@
 import * as DocumentPicker from 'expo-document-picker';
 import * as Sharing from 'expo-sharing';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Button } from '../components/Button';
 import { Icon } from '../components/Icon';
@@ -18,7 +18,9 @@ export function DocumentsScreen({ route, navigation }: ScreenProps<'Documents'>)
   useStatusBar('dark');
   const { vehicleId } = route.params;
   const vehicle = useGarage((s) => s.vehicles.find((v) => v.id === vehicleId));
-  const documents = useGarage((s) => s.documents.filter((d) => d.vehicleId === vehicleId));
+  const allDocuments = useGarage((s) => s.documents);
+  // Seçici her render'da yeni dizi döndürmemeli; yoksa sonsuz render döngüsü olur.
+  const documents = useMemo(() => allDocuments.filter((d) => d.vehicleId === vehicleId), [allDocuments, vehicleId]);
   const addDocument = useGarage((s) => s.addDocument);
   const removeDocument = useGarage((s) => s.removeDocument);
   const [kind, setKind] = useState<DocumentKind>('ruhsat');

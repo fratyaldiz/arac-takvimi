@@ -10,7 +10,7 @@ import { ChipRow, TextField } from '../components/ui';
 import { useStatusBar } from '../hooks/useStatusBar';
 import { useToday } from '../hooks/useToday';
 import type { ScreenProps } from '../navigation';
-import { effectivePrice } from '../fuel/manual';
+import { effectivePrice, isManual } from '../fuel/manual';
 import { useFuelPrices } from '../store/fuel';
 import { useGarage, type ExpenseInput } from '../store/garage';
 import { colors, EXPENSE_META, FUEL_LABEL, radius, shadow } from '../theme';
@@ -201,7 +201,9 @@ export function ExpenseFormScreen({ navigation, route }: ScreenProps<'ExpenseFor
               placeholder="0"
               hint={
                 livePrice
-                  ? `Güncel ülke ortalaması ${formatNumberTR(livePrice, 2)} TL. Pompadaki fiyat farklıysa onu yaz.`
+                  ? isManual(manualPrices, fuelType)
+                    ? `Senin girdiğin fiyat: ${formatNumberTR(livePrice, 2)} TL.`
+                    : `Tahmini ülke ortalaması ${formatNumberTR(livePrice, 2)} TL. Pompadaki fiyat farklıysa onu yaz.`
                   : 'Pompadaki litre fiyatını yaz.'
               }
             />

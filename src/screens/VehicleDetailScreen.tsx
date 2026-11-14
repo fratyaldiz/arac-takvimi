@@ -83,7 +83,9 @@ export function VehicleDetailScreen({ navigation, route }: ScreenProps<'VehicleD
   const payFine = useGarage((s) => s.payFine);
   const setOdometer = useGarage((s) => s.setOdometer);
   const removeVehicle = useGarage((s) => s.removeVehicle);
-  const vehicleDocuments = useGarage((s) => s.documents.filter((d) => d.vehicleId === id));
+  const allDocuments = useGarage((s) => s.documents);
+  // zustand v5 seçicisi her çağrıda yeni dizi döndürürse sonsuz render döngüsü olur.
+  const vehicleDocuments = useMemo(() => allDocuments.filter((d) => d.vehicleId === id), [allDocuments, id]);
   const documentCount = vehicleDocuments.length;
   const pro = useIsPro();
   const askForReview = useReview((s) => s.askIfDue);

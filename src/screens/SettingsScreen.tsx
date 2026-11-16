@@ -6,15 +6,18 @@ import { useState } from 'react';
 import { Alert, Linking, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { backupFileName, backupSummary, createBackup, parseBackup } from '../backup/backup';
 import { csvFileName, expensesToCsv } from '../backup/csv';
+import { exportDeadlinesToCalendar } from '../calendar/sync';
 import { Button } from '../components/Button';
 import { Icon } from '../components/Icon';
 import { Card, SectionHeader } from '../components/ui';
 import { APP_STORE_REVIEW_URL, PLAY_STORE_REVIEW_URL, PRIVACY_URL, SUPPORT_EMAIL } from '../constants';
 import { FUEL_PRICE_SOURCE } from '../fuel/prices';
 import { useStatusBar } from '../hooks/useStatusBar';
+import { useToday } from '../hooks/useToday';
 import type { ScreenProps } from '../navigation';
 import { syncNotifications } from '../notifications/scheduler';
 import { PRO_VISIBLE } from '../pro/gate';
+import { allDeadlines } from '../rules/schedule';
 import { useGarage } from '../store/garage';
 import { useIsPro } from '../store/pro';
 import { useReview } from '../store/review';
@@ -30,6 +33,7 @@ export function SettingsScreen({ navigation }: ScreenProps<'Settings'>) {
   const parking = useGarage((s) => s.parking);
   const replaceAll = useGarage((s) => s.replaceAll);
   const pro = useIsPro();
+  const today = useToday();
   const dismissReview = useReview((s) => s.dismiss);
   const [busy, setBusy] = useState(false);
 
@@ -79,6 +83,28 @@ export function SettingsScreen({ navigation }: ScreenProps<'Settings'>) {
       }
     } catch {
       Alert.alert('Dışa aktarılamadı', 'Dosya oluşturulurken bir sorun oldu. Tekrar dene.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const exportToCalendar = async () => {
+    setBusy(true);
+    try {
+      const deadlines = allDeadlines(vehicles, today, { parts, fines });
+      const result = await exportDeadlinesToCalendar(deadlines, vehicles);
+      if (result.ok) {
+        Alert.alert(
+          result.added ? 'Takvime eklendi' : 'Eklenecek tarih yok',
+          result.added
+            ? `${result.added} son tarih telefon takvimine yazıldı. Her biri için bir gün önceden hatırlatma kuruldu.`
+            : 'Günü belli bir son tarih bulunamadı.',
+        );
+      } else if (result.reason === 'permission') {
+        Alert.alert('Takvim izni yok', 'Ayarlardan takvim iznini açarsan son tarihleri oraya da yazabiliriz.');
+      } else {
+        Alert.alert('Eklenemedi', 'Takvime yazılırken bir sorun oldu. Tekrar dene.');
+      }
     } finally {
       setBusy(false);
     }
@@ -166,6 +192,21 @@ export function SettingsScreen({ navigation }: ScreenProps<'Settings'>) {
           </Card>
         </>
       ) : null}
+
+      <SectionHeader title="Telefon takvimi" />
+      <Card style={styles.card}>
+        <Text style={styles.body}>
+          Son tarihleri telefonunun takvimine tüm gün etkinliği olarak yazar; bir gün öncesinden hatırlatma kurar.
+          Uygulamayı silsen bile takvimde kalır. Tekrar basarsan kayıtlar ikinci kez eklenir.
+        </Text>
+        <Button
+          title="Son tarihleri takvime ekle"
+          icon="calendar-export"
+          variant="secondary"
+          onPress={exportToCalendar}
+          disabled={busy}
+        />
+      </Card>
 
       <SectionHeader title="Bilgi kaynakları" />
       <Card style={styles.card}>

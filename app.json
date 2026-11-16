@@ -56,7 +56,13 @@
           "locationWhenInUsePermission": "Park ettiğin yeri kaydetmek için konumun kullanılır."
         }
       ],
-      "expo-sharing"
+      "expo-sharing",
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "Son tarihleri telefon takvimine eklemek için takvime erişim gerekir."
+        }
+      ]
     ],
     "extra": {
       "eas": {

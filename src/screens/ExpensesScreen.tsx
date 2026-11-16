@@ -4,6 +4,7 @@ import { BarChart } from '../components/BarChart';
 import { Button } from '../components/Button';
 import { ExpenseRow } from '../components/ExpenseRow';
 import { Card, ChipRow, EmptyHint, GradientHero, ListRow, SectionHeader, screenStyles } from '../components/ui';
+import { compareVehicles } from '../expenses/history';
 import { categoryTotals, fuelConsumption, monthlyTotals, sumBetween } from '../expenses/stats';
 import { useStatusBar } from '../hooks/useStatusBar';
 import { useToday } from '../hooks/useToday';
@@ -42,6 +43,11 @@ export function ExpensesScreen({ navigation }: TabProps<'Masraflar'>) {
   const consumptionRows = (selected ? [selected] : vehicles)
     .map((v) => ({ vehicle: v, consumption: fuelConsumption(expenses.filter((e) => e.vehicleId === v.id)) }))
     .filter((r) => r.consumption !== null);
+  // Yıl başından bugüne araç kıyası; tek araçlı kullanıcıda gizlenir.
+  const comparison = useMemo(
+    () => (vehicles.length > 1 ? compareVehicles(expenses, vehicles, `${today.slice(0, 4)}-01-01`, today) : []),
+    [expenses, vehicles, today],
+  );
   const plateOf = (id: string) => (vehicles.length > 1 && !selected ? vehicles.find((v) => v.id === id)?.plate : undefined);
 
   const groups: { month: string; items: Expense[]; total: number }[] = [];
@@ -105,6 +111,24 @@ export function ExpensesScreen({ navigation }: TabProps<'Masraflar'>) {
                 subtitle={pro ? 'Dönem, kategori ve km başına maliyet' : 'Pro: dönem, kategori ve km başına maliyet'}
                 onPress={() => (pro ? navigation.navigate('Report') : navigation.navigate('Pro', { trigger: 'report' }))}
               />
+            ) : null}
+
+            {comparison.length > 1 ? (
+              <Card style={styles.gap}>
+                <Text style={styles.cardTitle}>Bu yıl araç karşılaştırması</Text>
+                {comparison.map((row) => {
+                  const vehicle = vehicles.find((v) => v.id === row.vehicleId);
+                  return (
+                    <View key={row.vehicleId} style={styles.consumption}>
+                      <Text style={styles.consumptionPlate}>{vehicle?.plate ?? '—'}</Text>
+                      <Text style={styles.consumptionValue}>{formatTL(row.total, 0)}</Text>
+                      <Text style={styles.consumptionCost}>
+                        {row.costPerKm === null ? 'km yok' : `${formatNumberTR(row.costPerKm, 2)} TL/km`}
+                      </Text>
+                    </View>
+                  );
+                })}
+              </Card>
             ) : null}
 
             {consumptionRows.length > 0 ? (

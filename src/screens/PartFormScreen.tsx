@@ -5,6 +5,8 @@ import { Button } from '../components/Button';
 import { DateField } from '../components/DatePicker';
 import { ListRow, TextField } from '../components/ui';
 import { useStatusBar } from '../hooks/useStatusBar';
+import { useToday } from '../hooks/useToday';
+import { parseDotCode, tireAdvice, TIRE_MAX_AGE_YEARS, TIRE_REPLACE_AGE_YEARS } from '../rules/tire';
 import type { ScreenProps } from '../navigation';
 import { presetsFor, type PartPreset } from '../rules/parts';
 import { intervalText } from '../rules/schedule';
@@ -34,6 +36,10 @@ export function PartFormScreen({ navigation, route }: ScreenProps<'PartForm'>) {
 
   const [picked, setPicked] = useState(Boolean(existing));
   const [kind, setKind] = useState<PartKind>(existing?.kind ?? 'ozel');
+  const [dotText, setDotText] = useState('');
+  const today = useToday();
+  // DOT yalnız lastikte sorulur; kodun son dört hanesi üretim hafta/yılını verir.
+  const tireAge = kind === 'lastik' && dotText.trim() ? parseDotCode(dotText, today) : null;
   const [label, setLabel] = useState(existing?.label ?? '');
   const [kmText, setKmText] = useState(existing?.intervalKm != null ? String(existing.intervalKm) : '');
   const [monthsText, setMonthsText] = useState(existing?.intervalMonths != null ? String(existing.intervalMonths) : '');
@@ -127,6 +133,31 @@ export function PartFormScreen({ navigation, route }: ScreenProps<'PartForm'>) {
           <Text style={styles.note}>Hangisi önce dolarsa o hatırlatılır. Değerler genel öneridir; kılavuzuna göre düzenle.</Text>
         </View>
 
+        {kind === 'lastik' ? (
+          <View style={styles.card}>
+            <TextField
+              label="Lastik DOT kodu"
+              optional
+              value={dotText}
+              onChangeText={setDotText}
+              placeholder="Örn. 2320"
+              keyboardType="number-pad"
+              hint="Lastiğin yan duvarındaki DOT yazısının son dört hanesi: hafta + yıl (2320 = 2020'nin 23. haftası)."
+            />
+            {dotText.trim() && !tireAge ? <Text style={styles.note}>Kod okunamadı. Son dört haneyi yaz.</Text> : null}
+            {tireAge ? (
+              <Text style={tireAdvice(tireAge) === 'ok' ? styles.note : styles.warn}>
+                {`Üretim: ${tireAge.year} yılı ${tireAge.week}. hafta · yaş ${tireAge.ageYears.toFixed(1)}. `}
+                {tireAdvice(tireAge) === 'replace'
+                  ? `${TIRE_MAX_AGE_YEARS} yılı geçmiş lastik diş derinliği yeterli olsa da kullanılmamalı.`
+                  : tireAdvice(tireAge) === 'aging'
+                    ? `${TIRE_REPLACE_AGE_YEARS} yılı geçmiş; kontrol ettir, değişim zamanı yaklaştı.`
+                    : 'Yaşı uygun.'}
+              </Text>
+            ) : null}
+          </View>
+        ) : null}
+
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Son değişim</Text>
           <DateField label="Tarih" value={lastDate} onChange={setLastDate} optional />
@@ -171,6 +202,12 @@ const styles = StyleSheet.create({
   note: {
     fontSize: 12,
     color: colors.muted,
+    lineHeight: 17,
+  },
+  warn: {
+    fontSize: 12,
+    color: colors.warn,
+    fontWeight: '600',
     lineHeight: 17,
   },
   card: {

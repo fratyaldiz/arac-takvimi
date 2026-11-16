@@ -275,6 +275,16 @@ export function VehicleDetailScreen({ navigation, route }: ScreenProps<'VehicleD
           </>
         ) : null}
 
+        <SectionHeader title="Servis geçmişi" />
+        <ListRow
+          icon="clipboard-text-clock-outline"
+          iconColor="#0D9488"
+          iconBg="#CCFBF1"
+          title="Yapılan işler defteri"
+          subtitle="Bakım, parça ve lastik kayıtları tarih ve kilometresiyle"
+          onPress={() => navigation.navigate('ServiceLog', { vehicleId: id })}
+        />
+
         {PRO_VISIBLE ? (
           <>
             <SectionHeader title="Belgeler" />

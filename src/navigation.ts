@@ -22,6 +22,7 @@ export type RootStackParamList = {
   Parking: undefined;
   Settings: undefined;
   Documents: { vehicleId: string };
+  ServiceLog: { vehicleId: string };
   Report: undefined;
   Pro: { trigger?: ProTrigger } | undefined;
 };

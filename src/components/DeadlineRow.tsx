@@ -1,7 +1,8 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
+import { OFFICIAL_LINKS } from '../links';
 import { COMPLETE_LABEL, deadlineStatus } from '../rules/schedule';
 import { colors, DEADLINE_META, radius, shadow, STATUS_COLORS } from '../theme';
-import type { Deadline } from '../types';
+import type { Deadline, DeadlineKind } from '../types';
 import type { ISODate } from '../utils/date';
 import { Button } from './Button';
 import { deadlineBadge, deadlineDateText, urgency } from './deadlineFormat';
@@ -17,10 +18,20 @@ interface Props {
   onComplete?: () => void;
 }
 
+
+/** Resmi sorgulama/randevu sayfası olan işler; kart üzerinden açılır. */
+const OFFICIAL_ACTION: Partial<Record<DeadlineKind, { label: string; url: string }>> = {
+  muayene: { label: 'TÜVTÜRK randevu', url: OFFICIAL_LINKS.tuvturkAppointment },
+  mtv: { label: 'e-Devlet’te öde', url: OFFICIAL_LINKS.edevletMtv },
+  ceza: { label: 'e-Devlet’te sorgula', url: OFFICIAL_LINKS.edevletFines },
+  trafik: { label: 'Poliçeni sorgula', url: OFFICIAL_LINKS.sbmPolicy },
+};
+
 export function DeadlineRow({ deadline, today, plate, onPress, onComplete }: Props) {
   const status = deadlineStatus(deadline, today);
   const tone = STATUS_COLORS[status];
   const meta = DEADLINE_META[deadline.kind];
+  const official = OFFICIAL_ACTION[deadline.kind];
   return (
     <Pressable onPress={onPress} disabled={!onPress} style={({ pressed }) => [styles.row, pressed && styles.pressed]}>
       <View style={styles.top}>
@@ -45,9 +56,20 @@ export function DeadlineRow({ deadline, today, plate, onPress, onComplete }: Pro
           <Text style={styles.date}>{deadlineDateText(deadline)}</Text>
         </View>
       </View>
-      {onComplete ? (
+      {onComplete || official ? (
         <View style={styles.actions}>
-          <Button small variant="secondary" icon="check" title={COMPLETE_LABEL[deadline.kind]} onPress={onComplete} />
+          {official ? (
+            <Button
+              small
+              variant="light"
+              icon="open-in-new"
+              title={official.label}
+              onPress={() => Linking.openURL(official.url)}
+            />
+          ) : null}
+          {onComplete ? (
+            <Button small variant="secondary" icon="check" title={COMPLETE_LABEL[deadline.kind]} onPress={onComplete} />
+          ) : null}
         </View>
       ) : null}
     </Pressable>
@@ -117,5 +139,6 @@ const styles = StyleSheet.create({
   actions: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    gap: 8,
   },
 });

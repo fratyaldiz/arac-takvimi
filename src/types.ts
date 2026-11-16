@@ -21,6 +21,8 @@ export interface Vehicle {
   trafficInsuranceDue: ISODate | null;
   kaskoDue: ISODate | null;
   mtvEnabled: boolean;
+  /** Yıllık MTV tutarı (TL); e-Devlet'ten okunup bir kez girilir. Taksit yarısıdır. */
+  mtvAnnualAmount: number | null;
   /** Ödenen taksitler: '2026-1', '2026-2' */
   mtvPaid: string[];
   tireEnabled: boolean;

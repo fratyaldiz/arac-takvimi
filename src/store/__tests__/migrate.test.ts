@@ -21,7 +21,13 @@ const v1Vehicle = {
 describe('kayıt taşıma', () => {
   it('v1 aracı korunur, yeni alanlar varsayılan alır', () => {
     const data = migrateGarage({ vehicles: [v1Vehicle] }, 1);
-    expect(data.vehicles[0]).toEqual({ ...v1Vehicle, fuelType: 'benzin', color: 'mavi', odometerKm: null });
+    expect(data.vehicles[0]).toEqual({
+      ...v1Vehicle,
+      fuelType: 'benzin',
+      color: 'mavi',
+      odometerKm: null,
+      mtvAnnualAmount: null,
+    });
     expect(data).toMatchObject({ expenses: [], parts: [], fines: [], documents: [], parking: null });
   });
 
@@ -43,7 +49,11 @@ describe('kayıt taşıma', () => {
       fines: [],
       parking: null,
     };
-    expect(migrateGarage(v2, 2)).toEqual({ ...v2, documents: [] });
+    expect(migrateGarage(v2, 2)).toEqual({
+      ...v2,
+      documents: [],
+      vehicles: v2.vehicles.map((v) => ({ ...v, mtvAnnualAmount: null })),
+    });
   });
 
   it('güncel sürüm verisine dokunmaz', () => {
@@ -55,6 +65,9 @@ describe('kayıt taşıma', () => {
       documents: [{ id: 'd1', vehicleId: 'abc', kind: 'ruhsat' }],
       parking: null,
     };
-    expect(migrateGarage(current, 3)).toEqual(current);
+    expect(migrateGarage(current, 4)).toEqual({
+      ...current,
+      vehicles: current.vehicles.map((v) => ({ ...v, mtvAnnualAmount: null })),
+    });
   });
 });

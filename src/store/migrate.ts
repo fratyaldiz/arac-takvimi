@@ -1,7 +1,7 @@
 import { VEHICLE_COLOR_KEYS, type Vehicle } from '../types';
 import type { GarageData } from './garage';
 
-export const GARAGE_STORE_VERSION = 3;
+export const GARAGE_STORE_VERSION = 4;
 
 /** v1 aracında olmayan alanlar */
 type VehicleV1 = Omit<Vehicle, 'fuelType' | 'color' | 'odometerKm'> & Partial<Vehicle>;
@@ -16,6 +16,7 @@ export function migrateGarage(persisted: unknown, version: number): GarageData {
     return {
       vehicles: (state.vehicles ?? []).map((v, i) => ({
         ...v,
+        mtvAnnualAmount: v.mtvAnnualAmount ?? null,
         fuelType: v.fuelType ?? 'benzin',
         color: v.color ?? VEHICLE_COLOR_KEYS[i % VEHICLE_COLOR_KEYS.length],
         odometerKm: v.odometerKm ?? null,
@@ -28,7 +29,8 @@ export function migrateGarage(persisted: unknown, version: number): GarageData {
     };
   }
   return {
-    vehicles: (state.vehicles ?? []) as Vehicle[],
+    // v4: MTV tutarı alanı eklendi; eski araçlarda bilinmiyor.
+    vehicles: (state.vehicles ?? []).map((v) => ({ ...v, mtvAnnualAmount: v.mtvAnnualAmount ?? null })) as Vehicle[],
     expenses: state.expenses ?? [],
     parts: state.parts ?? [],
     fines: state.fines ?? [],

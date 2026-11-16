@@ -13,6 +13,7 @@ export function makeVehicle(overrides: Partial<Vehicle> = {}): Vehicle {
     trafficInsuranceDue: null,
     kaskoDue: null,
     mtvEnabled: false,
+    mtvAnnualAmount: null,
     mtvPaid: [],
     tireEnabled: false,
     tireDone: [],

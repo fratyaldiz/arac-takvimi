@@ -9,7 +9,7 @@ import {
   maxISO,
   type ISODate,
 } from '../utils/date';
-import { formatKm, formatTL } from '../utils/money';
+import { formatKm, formatNumberTR, formatTL } from '../utils/money';
 import {
   FINE_DISCOUNT_MONTHS,
   FINE_DISCOUNT_PERCENT,
@@ -231,7 +231,13 @@ export function computeDeadlines(vehicle: Vehicle, today: ISODate, related: Rela
   if (vehicle.mtvEnabled) {
     const period = firstOpenPeriod(mtvPeriods(fromYear, toYear), vehicle.mtvPaid, vehicle.createdAt, today);
     if (period) {
-      out.push(make(vehicle, 'mtv', period.key, 'MTV', `${period.label} · ay sonuna kadar`, period.due, true));
+      // Tutar biliniyorsa taksit (yıllığın yarısı) alt yazıda gösterilir.
+      const installment = vehicle.mtvAnnualAmount !== null ? vehicle.mtvAnnualAmount / 2 : null;
+      const subtitle =
+        installment !== null
+          ? `${period.label} · ${formatNumberTR(installment, 2)} TL · ay sonuna kadar`
+          : `${period.label} · ay sonuna kadar`;
+      out.push(make(vehicle, 'mtv', period.key, 'MTV', subtitle, period.due, true));
     }
   }
 

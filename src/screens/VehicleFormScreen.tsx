@@ -6,6 +6,7 @@ import { Button } from '../components/Button';
 import { DateField, useDatePicker } from '../components/DatePicker';
 import { Icon } from '../components/Icon';
 import { Segmented } from '../components/Segmented';
+import { toInput } from '../components/Sheet';
 import { TextField } from '../components/ui';
 import { useStatusBar } from '../hooks/useStatusBar';
 import { useToday } from '../hooks/useToday';
@@ -68,6 +69,9 @@ export function VehicleFormScreen({ navigation, route }: ScreenProps<'VehicleFor
     existing?.serviceIntervalMonths ?? DEFAULT_SERVICE_INTERVAL_MONTHS,
   );
   const [mtvEnabled, setMtvEnabled] = useState(existing?.mtvEnabled ?? true);
+  const [mtvAmountText, setMtvAmountText] = useState(
+    existing?.mtvAnnualAmount !== null && existing?.mtvAnnualAmount !== undefined ? toInput(existing.mtvAnnualAmount) : '',
+  );
   const [tireEnabled, setTireEnabled] = useState(existing?.tireEnabled ?? false);
 
   useLayoutEffect(() => {
@@ -109,6 +113,7 @@ export function VehicleFormScreen({ navigation, route }: ScreenProps<'VehicleFor
       trafficInsuranceDue,
       kaskoDue,
       mtvEnabled,
+      mtvAnnualAmount: mtvEnabled ? parseDecimalTR(mtvAmountText) : null,
       tireEnabled,
       lastServiceDate,
       serviceIntervalMonths,
@@ -232,6 +237,18 @@ export function VehicleFormScreen({ navigation, route }: ScreenProps<'VehicleFor
 
         <Card title="Diğer hatırlatmalar">
           <SwitchRow title="MTV taksitleri" subtitle="Ocak ve Temmuz, ay sonuna kadar" value={mtvEnabled} onChange={setMtvEnabled} />
+          {mtvEnabled ? (
+            <TextField
+              label="Yıllık MTV tutarı"
+              optional
+              value={mtvAmountText}
+              onChangeText={setMtvAmountText}
+              placeholder="Örn. 10016"
+              suffix="TL"
+              keyboardType="decimal-pad"
+              hint="e-Devlet'teki tutarı yazarsan taksit hatırlatmasında görünür. Taksit bunun yarısıdır."
+            />
+          ) : null}
           <SwitchRow
             title="Lastik değişimi"
             subtitle={`${tireRange}${kind === 'ticari' ? ' · ticari araçta zorunlu' : ''}`}

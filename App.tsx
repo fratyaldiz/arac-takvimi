@@ -9,6 +9,8 @@ import { Icon, type IconName } from './src/components/Icon';
 import { useToday } from './src/hooks/useToday';
 import type { RootStackParamList, TabParamList } from './src/navigation';
 import { syncNotifications } from './src/notifications/scheduler';
+import { allDeadlines } from './src/rules/schedule';
+import { syncWidget } from './src/widget/sync';
 import { CalendarScreen } from './src/screens/CalendarScreen';
 import { ExpenseFormScreen } from './src/screens/ExpenseFormScreen';
 import { ExpensesScreen } from './src/screens/ExpensesScreen';
@@ -84,7 +86,11 @@ export default function App() {
   // Veri değişince ve her gün ilk açılışta bildirim planı yeniden kurulur.
   useEffect(() => {
     if (!hydrated) return;
-    const timer = setTimeout(() => syncNotifications({ vehicles, parts, fines, parking }), 800);
+    const timer = setTimeout(() => {
+      syncNotifications({ vehicles, parts, fines, parking });
+      // Ana ekran widget'ı da aynı veriden beslenir.
+      syncWidget(allDeadlines(vehicles, today, { parts, fines }), vehicles, today);
+    }, 800);
     return () => clearTimeout(timer);
   }, [hydrated, vehicles, parts, fines, parking, today]);
 

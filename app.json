@@ -18,7 +18,13 @@
           "tr"
         ]
       },
-      "appStoreUrl": "https://apps.apple.com/tr/app/id6817512595"
+      "appStoreUrl": "https://apps.apple.com/tr/app/id6817512595",
+      "appleTeamId": "P8XQHNQ2XY",
+      "entitlements": {
+        "com.apple.security.application-groups": [
+          "group.com.aractakvimi.app"
+        ]
+      }
     },
     "android": {
       "package": "com.aractakvimi.app",
@@ -62,7 +68,8 @@
         {
           "calendarPermission": "Son tarihleri telefon takvimine eklemek için takvime erişim gerekir."
         }
-      ]
+      ],
+      "@bacons/apple-targets"
     ],
     "extra": {
       "eas": {

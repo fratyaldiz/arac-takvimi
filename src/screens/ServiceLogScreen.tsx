@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, View } from 'react-native';
+import { Text } from '../components/AppText';
 import { Button } from '../components/Button';
 import { Icon } from '../components/Icon';
 import { Card, EmptyHint, SectionHeader } from '../components/ui';

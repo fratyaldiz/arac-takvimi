@@ -7,6 +7,7 @@ import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Icon, type IconName } from './src/components/Icon';
 import { useToday } from './src/hooks/useToday';
+import { useT } from './src/i18n/store';
 import type { RootStackParamList, TabParamList } from './src/navigation';
 import { syncNotifications } from './src/notifications/scheduler';
 import { CalendarScreen } from './src/screens/CalendarScreen';
@@ -52,10 +53,12 @@ const navigationTheme = {
 };
 
 function Tabs() {
+  const t = useT();
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
+        tabBarLabel: t(route.name),
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: '#94A3B8',
         tabBarStyle: { backgroundColor: colors.card, borderTopColor: colors.border },
@@ -74,6 +77,7 @@ function Tabs() {
 }
 
 export default function App() {
+  const t = useT();
   const hydrated = useHydrated();
   const vehicles = useGarage((s) => s.vehicles);
   const parts = useGarage((s) => s.parts);
@@ -112,18 +116,18 @@ export default function App() {
           }}
         >
           <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
-          <Stack.Screen name="VehicleForm" component={VehicleFormScreen} options={{ title: 'Araç' }} />
+          <Stack.Screen name="VehicleForm" component={VehicleFormScreen} options={{ title: t('Araç') }} />
           <Stack.Screen name="VehicleDetail" component={VehicleDetailScreen} options={{ title: '' }} />
-          <Stack.Screen name="ExpenseForm" component={ExpenseFormScreen} options={{ title: 'Masraf' }} />
-          <Stack.Screen name="PartForm" component={PartFormScreen} options={{ title: 'Parça ve bakım' }} />
-          <Stack.Screen name="FineForm" component={FineFormScreen} options={{ title: 'Trafik cezası' }} />
-          <Stack.Screen name="Trip" component={TripScreen} options={{ title: 'Yolculuk maliyeti' }} />
-          <Stack.Screen name="Parking" component={ParkingScreen} options={{ title: 'Park ettim' }} />
-          <Stack.Screen name="Settings" component={SettingsScreen} options={{ title: 'Ayarlar' }} />
-          <Stack.Screen name="Documents" component={DocumentsScreen} options={{ title: 'Belgeler' }} />
-          <Stack.Screen name="ServiceLog" component={ServiceLogScreen} options={{ title: 'Servis geçmişi' }} />
-          <Stack.Screen name="Report" component={ReportScreen} options={{ title: 'Masraf raporu' }} />
-          <Stack.Screen name="Pro" component={ProScreen} options={{ title: 'Araç Takvimi Pro' }} />
+          <Stack.Screen name="ExpenseForm" component={ExpenseFormScreen} options={{ title: t('Masraf') }} />
+          <Stack.Screen name="PartForm" component={PartFormScreen} options={{ title: t('Parça ve bakım') }} />
+          <Stack.Screen name="FineForm" component={FineFormScreen} options={{ title: t('Trafik cezası') }} />
+          <Stack.Screen name="Trip" component={TripScreen} options={{ title: t('Yolculuk maliyeti') }} />
+          <Stack.Screen name="Parking" component={ParkingScreen} options={{ title: t('Park ettim') }} />
+          <Stack.Screen name="Settings" component={SettingsScreen} options={{ title: t('Ayarlar') }} />
+          <Stack.Screen name="Documents" component={DocumentsScreen} options={{ title: t('Belgeler') }} />
+          <Stack.Screen name="ServiceLog" component={ServiceLogScreen} options={{ title: t('Servis geçmişi') }} />
+          <Stack.Screen name="Report" component={ReportScreen} options={{ title: t('Masraf raporu') }} />
+          <Stack.Screen name="Pro" component={ProScreen} options={{ title: t('Araç Takvimi Pro') }} />
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar style="light" />

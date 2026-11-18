@@ -1,10 +1,12 @@
 import { useLayoutEffect, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, View } from 'react-native';
+import { Text } from '../components/AppText';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '../components/Button';
 import { DateField } from '../components/DatePicker';
 import { ListRow, TextField } from '../components/ui';
 import { useStatusBar } from '../hooks/useStatusBar';
+import { useT } from '../i18n/store';
 import { useToday } from '../hooks/useToday';
 import { parseDotCode, tireAdvice, TIRE_MAX_AGE_YEARS, TIRE_REPLACE_AGE_YEARS } from '../rules/tire';
 import type { ScreenProps } from '../navigation';
@@ -25,6 +27,7 @@ function parseOptionalInt(text: string): number | null | 'invalid' {
 
 export function PartFormScreen({ navigation, route }: ScreenProps<'PartForm'>) {
   useStatusBar('dark');
+  const t = useT();
   const { vehicleId, id } = route.params;
   const vehicle = useGarage((s) => s.vehicles.find((v) => v.id === vehicleId));
   const existing = useGarage((s) => (id ? s.parts.find((p) => p.id === id) : undefined));
@@ -47,7 +50,7 @@ export function PartFormScreen({ navigation, route }: ScreenProps<'PartForm'>) {
   const [lastKmText, setLastKmText] = useState(existing?.lastKm != null ? String(existing.lastKm) : '');
 
   useLayoutEffect(() => {
-    navigation.setOptions({ title: existing ? 'Kalemi düzenle' : 'Parça ve bakım' });
+    navigation.setOptions({ title: t(existing ? 'Kalemi düzenle' : 'Parça ve bakım') });
   }, [navigation, existing]);
 
   if (!vehicle) return null;

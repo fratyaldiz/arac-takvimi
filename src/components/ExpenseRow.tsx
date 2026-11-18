@@ -1,4 +1,5 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { Text } from './AppText';
 import { useT } from '../i18n/store';
 import { colors, EXPENSE_META, radius, shadow } from '../theme';
 import type { Expense } from '../types';

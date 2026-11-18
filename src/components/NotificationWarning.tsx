@@ -1,6 +1,7 @@
 import * as Notifications from 'expo-notifications';
 import { useCallback, useEffect, useState } from 'react';
-import { AppState, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
+import { AppState, Linking, Pressable, StyleSheet, View } from 'react-native';
+import { Text } from './AppText';
 import { colors, radius } from '../theme';
 import { Icon } from './Icon';
 

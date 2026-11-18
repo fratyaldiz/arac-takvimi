@@ -1,6 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
+import { Text } from './AppText';
 import { effectivePrice, isManual } from '../fuel/manual';
 import { FUEL_PRICE_SOURCE, priceAgeDays, STALE_AFTER_DAYS } from '../fuel/prices';
 import { useToday } from '../hooks/useToday';

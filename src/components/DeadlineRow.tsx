@@ -1,4 +1,5 @@
-import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Linking, Pressable, StyleSheet, View } from 'react-native';
+import { Text } from './AppText';
 import { useT } from '../i18n/store';
 import { OFFICIAL_LINKS } from '../links';
 import { COMPLETE_LABEL, deadlineStatus } from '../rules/schedule';

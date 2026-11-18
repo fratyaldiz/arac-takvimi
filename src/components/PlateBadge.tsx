@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from './AppText';
 import { colors } from '../theme';
 
 export function PlateBadge({ plate, large }: { plate: string; large?: boolean }) {

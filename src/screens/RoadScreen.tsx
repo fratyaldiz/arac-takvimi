@@ -1,5 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import { Alert, Linking, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Linking, Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { Text } from '../components/AppText';
 import { Button } from '../components/Button';
 import { FuelPriceTiles } from '../components/FuelPriceTiles';
 import { Icon } from '../components/Icon';

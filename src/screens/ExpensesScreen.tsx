@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { Text } from '../components/AppText';
 import { BarChart } from '../components/BarChart';
 import { Button } from '../components/Button';
 import { ExpenseRow } from '../components/ExpenseRow';

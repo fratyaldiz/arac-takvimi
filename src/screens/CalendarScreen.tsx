@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { Text } from '../components/AppText';
 import { Button } from '../components/Button';
 import { DeadlineRow } from '../components/DeadlineRow';
 import { Icon, type IconName } from '../components/Icon';

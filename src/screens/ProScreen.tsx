@@ -1,6 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { useEffect, useState } from 'react';
-import { Alert, Linking, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Linking, ScrollView, StyleSheet, View } from 'react-native';
+import { Text } from '../components/AppText';
 import { Button } from '../components/Button';
 import { Icon } from '../components/Icon';
 import { Card } from '../components/ui';

@@ -1,16 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import type { ReactNode } from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  type KeyboardTypeOptions,
-  type StyleProp,
-  type ViewStyle,
-} from 'react-native';
+import { Pressable, ScrollView, StyleSheet, TextInput, View, type KeyboardTypeOptions, type StyleProp, type ViewStyle } from 'react-native';
+import { Text } from './AppText';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useT } from '../i18n/store';
 import { colors, radius, shadow } from '../theme';

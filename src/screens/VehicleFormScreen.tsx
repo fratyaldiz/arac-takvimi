@@ -1,6 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLayoutEffect, useState, type ReactNode } from 'react';
-import { Alert, Pressable, ScrollView, StyleSheet, Switch, Text, TextInput, View } from 'react-native';
+import { Alert, Pressable, ScrollView, StyleSheet, Switch, TextInput, View } from 'react-native';
+import { Text } from '../components/AppText';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '../components/Button';
 import { DateField, useDatePicker } from '../components/DatePicker';
@@ -9,6 +10,7 @@ import { Segmented } from '../components/Segmented';
 import { toInput } from '../components/Sheet';
 import { TextField } from '../components/ui';
 import { useStatusBar } from '../hooks/useStatusBar';
+import { useT } from '../i18n/store';
 import { useToday } from '../hooks/useToday';
 import type { ScreenProps } from '../navigation';
 import { ensureNotificationPermission, syncNotifications } from '../notifications/scheduler';
@@ -42,6 +44,7 @@ function inspectionRule(kind: VehicleKind): string {
 
 export function VehicleFormScreen({ navigation, route }: ScreenProps<'VehicleForm'>) {
   useStatusBar('dark');
+  const t = useT();
   const editingId = route.params?.id;
   const existing = useGarage((s) => (editingId ? s.vehicles.find((v) => v.id === editingId) : undefined));
   const vehicleCount = useGarage((s) => s.vehicles.length);
@@ -75,7 +78,7 @@ export function VehicleFormScreen({ navigation, route }: ScreenProps<'VehicleFor
   const [tireEnabled, setTireEnabled] = useState(existing?.tireEnabled ?? false);
 
   useLayoutEffect(() => {
-    navigation.setOptions({ title: existing ? 'Aracı düzenle' : 'Yeni araç' });
+    navigation.setOptions({ title: t(existing ? 'Aracı düzenle' : 'Yeni araç') });
   }, [navigation, existing]);
 
   const changeKind = (next: VehicleKind) => {
@@ -276,11 +279,12 @@ function Card({ title, note, children }: { title: string; note?: string; childre
 }
 
 function Field({ label, optional, children }: { label: string; optional?: boolean; children: ReactNode }) {
+  const t = useT();
   return (
     <View style={styles.field}>
       <Text style={styles.label}>
         {label}
-        {optional ? <Text style={styles.optional}> (isteğe bağlı)</Text> : null}
+        {optional ? <Text style={styles.optional}> {t('(isteğe bağlı)')}</Text> : null}
       </Text>
       {children}
     </View>

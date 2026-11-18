@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { Text } from '../components/AppText';
 import { Icon } from '../components/Icon';
 import { PlateBadge } from '../components/PlateBadge';
 import { Segmented } from '../components/Segmented';

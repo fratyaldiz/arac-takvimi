@@ -7,6 +7,17 @@ import type { Dictionary } from './core';
  * açıklama eklenir.
  */
 export const en: Dictionary = {
+  '(isteğe bağlı)': '(optional)',
+  'Model ya da takma ad': 'Model or nickname',
+  'Hususi otomobil: ilk muayene 3. yılda, sonra 2 yılda bir.':
+    'Private car: first inspection in year 3, then every 2 years.',
+  'Ticari araç: ilk muayene 1. yılda, sonra her yıl.': 'Commercial vehicle: first inspection in year 1, then yearly.',
+  'Motosiklet: ilk muayene 3. yılda, sonra 2 yılda bir.': 'Motorcycle: first inspection in year 3, then every 2 years.',
+  'Kış lastiği 15 Kasım, yaz lastiği 15 Nisan · ticari araçta zorunlu':
+    'Winter tyres 15 November, summer tyres 15 April · required for commercial vehicles',
+  'Zorunlu · yıllık yenilenir': 'Required · renewed yearly',
+  'Araç Takvimi yedeği': 'Araç Takvimi backup',
+  'Aracım': 'My vehicle',
   // Sekmeler ve ekran başlıkları
   Takvim: 'Calendar',
   Masraflar: 'Expenses',
@@ -55,7 +66,6 @@ export const en: Dictionary = {
     'Inspection, insurance and service reminders cannot be sent. Tap to turn them on.',
 
   // Garaj
-  Aracım: 'My vehicle',
   Araçlar: 'Vehicles',
   'Araç ekle': 'Add vehicle',
   'Henüz araç yok': 'No vehicles yet',

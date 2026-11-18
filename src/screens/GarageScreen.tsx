@@ -1,6 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { useMemo } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Text } from '../components/AppText';
 import { Button } from '../components/Button';
 import { deadlineBadge } from '../components/deadlineFormat';
 import { Icon, type IconName } from '../components/Icon';

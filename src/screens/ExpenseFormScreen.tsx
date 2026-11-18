@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { Alert, Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import { Alert, Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
+import { Text } from '../components/AppText';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '../components/Button';
 import { DateField } from '../components/DatePicker';
@@ -8,6 +9,7 @@ import { Segmented } from '../components/Segmented';
 import { toInput } from '../components/Sheet';
 import { ChipRow, TextField } from '../components/ui';
 import { useStatusBar } from '../hooks/useStatusBar';
+import { useT } from '../i18n/store';
 import { useToday } from '../hooks/useToday';
 import type { ScreenProps } from '../navigation';
 import { effectivePrice, isManual } from '../fuel/manual';
@@ -26,6 +28,7 @@ function round2(n: number): number {
 
 export function ExpenseFormScreen({ navigation, route }: ScreenProps<'ExpenseForm'>) {
   useStatusBar('dark');
+  const t = useT();
   const { id, vehicleId: paramVehicleId, category: paramCategory } = route.params ?? {};
   const vehicles = useGarage((s) => s.vehicles);
   const existing = useGarage((s) => (id ? s.expenses.find((e) => e.id === id) : undefined));
@@ -55,7 +58,7 @@ export function ExpenseFormScreen({ navigation, route }: ScreenProps<'ExpenseFor
   const livePrice = effectivePrice(manualPrices, priceData, fuelType);
 
   useLayoutEffect(() => {
-    navigation.setOptions({ title: existing ? 'Kaydı düzenle' : isFuel ? 'Yakıt alımı' : 'Yeni masraf' });
+    navigation.setOptions({ title: t(existing ? 'Kaydı düzenle' : isFuel ? 'Yakıt alımı' : 'Yeni masraf') });
   }, [navigation, existing, isFuel]);
 
   useEffect(() => {

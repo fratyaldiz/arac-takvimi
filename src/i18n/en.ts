@@ -7,6 +7,19 @@ import type { Dictionary } from './core';
  * açıklama eklenir.
  */
 export const en: Dictionary = {
+  Düzenle: 'Edit',
+  Gir: 'Enter',
+  'Yağ, filtre, balata, akü gibi kalemleri ekle; km’si ya da süresi dolunca haber verelim.':
+    'Add items like oil, filters, brake pads or the battery; we will tell you when the mileage or time is up.',
+  'Ödenmemiş cezalar': 'Unpaid fines',
+  'Son masraflar': 'Recent expenses',
+  'Parça ve bakım': 'Parts and service',
+  'Servis geçmişi': 'Service history',
+  'Yakıt tüketimi': 'Fuel consumption',
+  'Bu ay harcanan': 'Spent this month',
+  'ay sonuna kadar': 'by the end of the month',
+  'Kalan km': 'Remaining km',
+  'Son tarih': 'Due date',
   '(isteğe bağlı)': '(optional)',
   'Model ya da takma ad': 'Model or nickname',
   'Hususi otomobil: ilk muayene 3. yılda, sonra 2 yılda bir.':
@@ -30,13 +43,11 @@ export const en: Dictionary = {
   'Yeni masraf': 'New expense',
   'Yakıt alımı': 'Fuel purchase',
   'Kaydı düzenle': 'Edit record',
-  'Parça ve bakım': 'Parts and service',
   'Trafik cezası': 'Traffic fine',
   'Yolculuk maliyeti': 'Trip cost',
   'Park ettim': 'I parked here',
   Ayarlar: 'Settings',
   Belgeler: 'Documents',
-  'Servis geçmişi': 'Service history',
   'Masraf raporu': 'Expense report',
   'Araç Takvimi Pro': 'Araç Takvimi Pro',
 
@@ -142,8 +153,6 @@ export const en: Dictionary = {
   'Sonraki bakım': 'Next service',
   'Yeni poliçe bitişi': 'New policy expiry',
   'Yeni kasko bitişi': 'New comprehensive cover expiry',
-  'Ödenmemiş cezalar': 'Unpaid fines',
-  'Son masraflar': 'Recent expenses',
   'Henüz masraf girilmedi.': 'No expenses recorded yet.',
   Ekle: 'Add',
   'Kalem ekle': 'Add item',
@@ -152,11 +161,9 @@ export const en: Dictionary = {
     'Service, parts and tyre records with dates and mileage',
 
   // Masraflar
-  'Bu ay harcanan': 'Spent this month',
   'Geçen ay': 'Last month',
   'Yakıt aldım': 'I bought fuel',
   'Masraf ekle': 'Add expense',
-  'Yakıt tüketimi': 'Fuel consumption',
   'Bu yıl kategoriye göre': 'By category this year',
   'Bu yıl araç karşılaştırması': 'Vehicle comparison this year',
   'Henüz masraf yok': 'No expenses yet',

@@ -7,7 +7,8 @@ import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Icon, type IconName } from './src/components/Icon';
 import { useToday } from './src/hooks/useToday';
-import { useT } from './src/i18n/store';
+import { useLanguage, useT } from './src/i18n/store';
+import { setDateLocale } from './src/utils/date';
 import type { RootStackParamList, TabParamList } from './src/navigation';
 import { syncNotifications } from './src/notifications/scheduler';
 import { CalendarScreen } from './src/screens/CalendarScreen';
@@ -78,7 +79,11 @@ function Tabs() {
 
 export default function App() {
   const t = useT();
+  const language = useLanguage();
   const hydrated = useHydrated();
+
+  // Tarih metinleri de uygulama diliyle birlikte değişsin.
+  setDateLocale(language);
   const vehicles = useGarage((s) => s.vehicles);
   const parts = useGarage((s) => s.parts);
   const fines = useGarage((s) => s.fines);

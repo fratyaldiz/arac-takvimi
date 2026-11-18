@@ -21,6 +21,41 @@ export const MONTHS_TR = [
 
 const WEEKDAYS_TR = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
 
+const MONTHS_EN = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+const WEEKDAYS_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+/**
+ * Tarih metinleri uygulamanın dilini izler. Dil değişince App bu değeri
+ * günceller; varsayılan Türkçedir, testler de Türkçe üzerinden yazılmıştır.
+ */
+let locale: 'tr' | 'en' = 'tr';
+
+export function setDateLocale(next: 'tr' | 'en'): void {
+  locale = next;
+}
+
+function months(): string[] {
+  return locale === 'en' ? MONTHS_EN : MONTHS_TR;
+}
+
+function weekdays(): string[] {
+  return locale === 'en' ? WEEKDAYS_EN : WEEKDAYS_TR;
+}
+
 function split(iso: ISODate): [number, number, number] {
   const [y, m, d] = iso.split('-').map(Number);
   return [y, m, d];
@@ -82,30 +117,38 @@ export function maxISO(a: ISODate, b: ISODate): ISODate {
 
 export function formatTR(iso: ISODate): string {
   const [y, m, d] = split(iso);
-  return `${d} ${MONTHS_TR[m - 1]} ${y}`;
+  return locale === 'en' ? `${months()[m - 1]} ${d}, ${y}` : `${d} ${months()[m - 1]} ${y}`;
 }
 
 /** "26 Eyl" */
 export function formatShortTR(iso: ISODate): string {
   const [, m, d] = split(iso);
-  return `${d} ${MONTHS_TR[m - 1].slice(0, 3)}`;
+  const month = months()[m - 1].slice(0, 3);
+  return locale === 'en' ? `${month} ${d}` : `${d} ${month}`;
 }
 
 export function weekdayTR(iso: ISODate): string {
-  return WEEKDAYS_TR[parseISO(iso).getDay()];
+  return weekdays()[parseISO(iso).getDay()];
 }
 
 /** "Eylül 2026" */
 export function formatMonthTR(yearMonth: string): string {
-  return `${MONTHS_TR[Number(yearMonth.slice(5, 7)) - 1]} ${yearMonth.slice(0, 4)}`;
+  return `${months()[Number(yearMonth.slice(5, 7)) - 1]} ${yearMonth.slice(0, 4)}`;
 }
 
 /** Ay adıyla gün: "15 Kasım" */
 export function formatDayMonthTR(month: number, day: number): string {
-  return `${day} ${MONTHS_TR[month - 1]}`;
+  return locale === 'en' ? `${months()[month - 1]} ${day}` : `${day} ${months()[month - 1]}`;
 }
 
 export function relativeTR(days: number): string {
+  if (locale === 'en') {
+    if (days === 0) return 'Today';
+    if (days === 1) return 'Tomorrow';
+    if (days > 0) return `${days} days`;
+    if (days === -1) return 'Due yesterday';
+    return `${-days} days ago`;
+  }
   if (days === 0) return 'Bugün';
   if (days === 1) return 'Yarın';
   if (days > 0) return `${days} gün`;

@@ -12,6 +12,7 @@ import {
   type ViewStyle,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useT } from '../i18n/store';
 import { colors, radius, shadow } from '../theme';
 import { Icon, type IconName } from './Icon';
 
@@ -20,12 +21,13 @@ export function Card({ children, style }: { children: ReactNode; style?: StylePr
 }
 
 export function SectionHeader({ title, action }: { title: string; action?: { label: string; onPress: () => void } }) {
+  const t = useT();
   return (
     <View style={styles.sectionRow}>
-      <Text style={styles.section}>{title}</Text>
+      <Text style={styles.section}>{t(title)}</Text>
       {action ? (
         <Pressable hitSlop={8} onPress={action.onPress}>
-          <Text style={styles.sectionAction}>{action.label}</Text>
+          <Text style={styles.sectionAction}>{t(action.label)}</Text>
         </Pressable>
       ) : null}
     </View>
@@ -56,13 +58,14 @@ export function GradientHero({ colors: gradient, children }: { colors: [string, 
 }
 
 export function HeroStat({ label, value, onPress }: { label: string; value: string; onPress?: () => void }) {
+  const t = useT();
   return (
     <Pressable disabled={!onPress} onPress={onPress} style={({ pressed }) => [styles.heroStat, pressed && styles.pressed]}>
       <Text style={styles.heroStatValue} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.6}>
         {value}
       </Text>
       <Text style={styles.heroStatLabel} numberOfLines={1}>
-        {label}
+        {t(label)}
         {onPress ? ' ›' : ''}
       </Text>
     </Pressable>
@@ -78,6 +81,7 @@ export function ChipRow<T extends string | number>({
   value: T;
   onChange: (value: T) => void;
 }) {
+  const t = useT();
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chips}>
       {options.map((option) => {
@@ -88,7 +92,7 @@ export function ChipRow<T extends string | number>({
             onPress={() => onChange(option.value)}
             style={[styles.chip, active && styles.chipActive]}
           >
-            <Text style={[styles.chipText, active && styles.chipTextActive]}>{option.label}</Text>
+            <Text style={[styles.chipText, active && styles.chipTextActive]}>{t(option.label)}</Text>
           </Pressable>
         );
       })}
@@ -119,26 +123,27 @@ export function TextField({
   optional,
   autoCapitalize,
 }: TextFieldProps) {
+  const t = useT();
   return (
     <View style={styles.field}>
       <Text style={styles.label}>
-        {label}
-        {optional ? <Text style={styles.optional}> (isteğe bağlı)</Text> : null}
+        {t(label)}
+        {optional ? <Text style={styles.optional}> {t('(isteğe bağlı)')}</Text> : null}
       </Text>
       <View style={styles.inputRow}>
         <TextInput
           value={value}
           onChangeText={onChangeText}
-          placeholder={placeholder}
+          placeholder={placeholder ? t(placeholder) : undefined}
           placeholderTextColor={colors.muted}
           keyboardType={keyboardType}
           autoCapitalize={autoCapitalize}
           autoCorrect={false}
           style={styles.input}
         />
-        {suffix ? <Text style={styles.suffix}>{suffix}</Text> : null}
+        {suffix ? <Text style={styles.suffix}>{t(suffix)}</Text> : null}
       </View>
-      {hint ? <Text style={styles.hint}>{hint}</Text> : null}
+      {hint ? <Text style={styles.hint}>{t(hint)}</Text> : null}
     </View>
   );
 }
@@ -160,12 +165,13 @@ export function ListRow({
   right?: ReactNode;
   onPress?: () => void;
 }) {
+  const t = useT();
   return (
     <Pressable disabled={!onPress} onPress={onPress} style={({ pressed }) => [styles.listRow, pressed && styles.pressed]}>
       <IconBadge icon={icon} color={iconColor} bg={iconBg} size={44} />
       <View style={styles.listText}>
-        <Text style={styles.listTitle}>{title}</Text>
-        {subtitle ? <Text style={styles.listSubtitle}>{subtitle}</Text> : null}
+        <Text style={styles.listTitle}>{t(title)}</Text>
+        {subtitle ? <Text style={styles.listSubtitle}>{t(subtitle)}</Text> : null}
       </View>
       {right ?? (onPress ? <Icon name="chevron-right" size={22} color={colors.muted} /> : null)}
     </Pressable>
@@ -173,11 +179,12 @@ export function ListRow({
 }
 
 export function EmptyHint({ icon, title, body, action }: { icon: IconName; title: string; body: string; action?: ReactNode }) {
+  const t = useT();
   return (
     <Card style={styles.empty}>
       <IconBadge icon={icon} color={colors.primary} bg={colors.primarySoft} size={56} />
-      <Text style={styles.emptyTitle}>{title}</Text>
-      <Text style={styles.emptyBody}>{body}</Text>
+      <Text style={styles.emptyTitle}>{t(title)}</Text>
+      <Text style={styles.emptyBody}>{t(body)}</Text>
       {action}
     </Card>
   );

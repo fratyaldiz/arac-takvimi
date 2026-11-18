@@ -1,4 +1,5 @@
 import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useT } from '../i18n/store';
 import { OFFICIAL_LINKS } from '../links';
 import { COMPLETE_LABEL, deadlineStatus } from '../rules/schedule';
 import { colors, DEADLINE_META, radius, shadow, STATUS_COLORS } from '../theme';
@@ -28,6 +29,7 @@ const OFFICIAL_ACTION: Partial<Record<DeadlineKind, { label: string; url: string
 };
 
 export function DeadlineRow({ deadline, today, plate, onPress, onComplete }: Props) {
+  const t = useT();
   const status = deadlineStatus(deadline, today);
   const tone = STATUS_COLORS[status];
   const meta = DEADLINE_META[deadline.kind];
@@ -43,10 +45,10 @@ export function DeadlineRow({ deadline, today, plate, onPress, onComplete }: Pro
         <View style={styles.titles}>
           {plate ? <Text style={styles.plate}>{plate}</Text> : null}
           <Text style={styles.title} numberOfLines={1}>
-            {deadline.title}
+            {t(deadline.title)}
           </Text>
           <Text style={styles.subtitle} numberOfLines={2}>
-            {deadline.subtitle}
+            {t(deadline.subtitle)}
           </Text>
         </View>
         <View style={styles.when}>

@@ -1,4 +1,5 @@
 import { Pressable, StyleSheet, Text } from 'react-native';
+import { useT } from '../i18n/store';
 import { colors } from '../theme';
 import { Icon, type IconName } from './Icon';
 
@@ -21,6 +22,7 @@ const VARIANT: Record<Variant, { bg: string; fg: string }> = {
 };
 
 export function Button({ title, onPress, variant = 'primary', small, icon, disabled }: Props) {
+  const t = useT();
   const { bg, fg } = VARIANT[variant];
   return (
     <Pressable
@@ -35,7 +37,7 @@ export function Button({ title, onPress, variant = 'primary', small, icon, disab
       ]}
     >
       {icon ? <Icon name={icon} size={small ? 16 : 20} color={fg} /> : null}
-      <Text style={[styles.text, small && styles.smallText, { color: fg }]}>{title}</Text>
+      <Text style={[styles.text, small && styles.smallText, { color: fg }]}>{t(title)}</Text>
     </Pressable>
   );
 }

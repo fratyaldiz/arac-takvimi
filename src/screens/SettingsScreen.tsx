@@ -9,9 +9,10 @@ import { csvFileName, expensesToCsv } from '../backup/csv';
 import { exportDeadlinesToCalendar } from '../calendar/sync';
 import { Button } from '../components/Button';
 import { Icon } from '../components/Icon';
-import { Card, SectionHeader } from '../components/ui';
+import { Card, ChipRow, SectionHeader } from '../components/ui';
 import { APP_STORE_REVIEW_URL, PLAY_STORE_REVIEW_URL, PRIVACY_URL, SUPPORT_EMAIL } from '../constants';
 import { FUEL_PRICE_SOURCE } from '../fuel/prices';
+import { useLanguageStore } from '../i18n/store';
 import { useStatusBar } from '../hooks/useStatusBar';
 import { useToday } from '../hooks/useToday';
 import type { ScreenProps } from '../navigation';
@@ -33,6 +34,8 @@ export function SettingsScreen({ navigation }: ScreenProps<'Settings'>) {
   const parking = useGarage((s) => s.parking);
   const replaceAll = useGarage((s) => s.replaceAll);
   const pro = useIsPro();
+  const languagePreference = useLanguageStore((s) => s.preference);
+  const setLanguagePreference = useLanguageStore((s) => s.setPreference);
   const today = useToday();
   const dismissReview = useReview((s) => s.dismiss);
   const [busy, setBusy] = useState(false);
@@ -164,6 +167,20 @@ export function SettingsScreen({ navigation }: ScreenProps<'Settings'>) {
           </Card>
         </>
       ) : null}
+
+      <SectionHeader title="Dil" />
+      <Card style={styles.card}>
+        <Text style={styles.body}>Uygulamanın dilini seç. Sistem dilini seçersen telefonun diline uyar.</Text>
+        <ChipRow
+          options={[
+            { value: 'system', label: 'Sistem dili' },
+            { value: 'tr', label: 'Türkçe' },
+            { value: 'en', label: 'İngilizce' },
+          ]}
+          value={languagePreference}
+          onChange={setLanguagePreference}
+        />
+      </Card>
 
       <SectionHeader title="Yedekleme" />
       <Card style={styles.card}>

@@ -1,4 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useT } from '../i18n/store';
 import { colors, EXPENSE_META, radius, shadow } from '../theme';
 import type { Expense } from '../types';
 import { formatTR } from '../utils/date';
@@ -6,6 +7,7 @@ import { formatKm, formatNumberTR, formatTL } from '../utils/money';
 import { IconBadge } from './ui';
 
 export function ExpenseRow({ expense, plate, onPress }: { expense: Expense; plate?: string; onPress?: () => void }) {
+  const t = useT();
   const meta = EXPENSE_META[expense.category];
   const details = [
     plate,
@@ -22,7 +24,7 @@ export function ExpenseRow({ expense, plate, onPress }: { expense: Expense; plat
       <IconBadge icon={meta.icon} color={meta.color} bg={`${meta.color}1F`} size={42} />
       <View style={styles.text}>
         <Text style={styles.title} numberOfLines={1}>
-          {meta.label}
+          {t(meta.label)}
           {expense.note ? ` · ${expense.note}` : ''}
         </Text>
         <Text style={styles.details} numberOfLines={1}>

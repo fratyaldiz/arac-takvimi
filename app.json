@@ -63,7 +63,8 @@
           "calendarPermission": "Son tarihleri telefon takvimine eklemek için takvime erişim gerekir."
         }
       ],
-      "./plugins/withPortraitNotRequired"
+      "./plugins/withPortraitNotRequired",
+      "expo-localization"
     ],
     "extra": {
       "eas": {

@@ -1,10 +1,12 @@
-import { useMemo } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useMemo, useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Button } from '../components/Button';
 import { Icon } from '../components/Icon';
 import { Card, EmptyHint, SectionHeader } from '../components/ui';
 import { serviceLog } from '../expenses/history';
+import { shareVehicleReport } from '../report/pdf';
 import { useStatusBar } from '../hooks/useStatusBar';
+import { useToday } from '../hooks/useToday';
 import type { ScreenProps } from '../navigation';
 import { useGarage } from '../store/garage';
 import { colors, EXPENSE_META, radius, shadow } from '../theme';
@@ -17,6 +19,8 @@ export function ServiceLogScreen({ route, navigation }: ScreenProps<'ServiceLog'
   const vehicle = useGarage((s) => s.vehicles.find((v) => v.id === vehicleId));
   const expenses = useGarage((s) => s.expenses);
   const parts = useGarage((s) => s.parts);
+  const today = useToday();
+  const [busy, setBusy] = useState(false);
 
   const log = useMemo(() => serviceLog(expenses, vehicleId), [expenses, vehicleId]);
   const vehicleParts = useMemo(() => parts.filter((p) => p.vehicleId === vehicleId), [parts, vehicleId]);
@@ -30,6 +34,21 @@ export function ServiceLogScreen({ route, navigation }: ScreenProps<'ServiceLog'
     );
   }
 
+  const sharePdf = async () => {
+    setBusy(true);
+    try {
+      const result = await shareVehicleReport({ vehicle, expenses, parts, today });
+      if (!result.ok) {
+        Alert.alert(
+          'Rapor oluşturulamadı',
+          result.reason === 'nosharing' ? 'Bu cihazda paylaşım kullanılamıyor.' : 'Bir sorun oldu, tekrar dene.',
+        );
+      }
+    } finally {
+      setBusy(false);
+    }
+  };
+
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       <Card style={styles.card}>
@@ -42,6 +61,7 @@ export function ServiceLogScreen({ route, navigation }: ScreenProps<'ServiceLog'
           <Metric label="Toplam" value={formatTL(total, 0)} />
           <Metric label="Takipteki kalem" value={String(vehicleParts.length)} />
         </View>
+        <Button title="PDF rapor oluştur" icon="file-pdf-box" onPress={sharePdf} disabled={busy} />
       </Card>
 
       <SectionHeader title="Yapılan işler" />

@@ -1,21 +1,31 @@
+import { DynamicColorIOS, Platform } from 'react-native';
 import type { IconName } from './components/Icon';
 import type { DeadlineStatus } from './rules/schedule';
 import type { DeadlineKind, ExpenseCategory, FuelType, PartKind, VehicleColor, VehicleKind } from './types';
 
+/**
+ * Karanlık mod: iOS'ta DynamicColorIOS rengi çizim anında sistem temasına göre
+ * seçer, böylece stil tanımlarını değiştirmeye gerek kalmaz. Android ve web
+ * bu API'yi desteklemediği için açık tema değerinde kalır.
+ */
+function dynamic(light: string, dark: string): string {
+  return Platform.OS === 'ios' ? (DynamicColorIOS({ light, dark }) as unknown as string) : light;
+}
+
 export const colors = {
-  bg: '#F3F5FA',
-  card: '#FFFFFF',
-  text: '#0F172A',
-  muted: '#64748B',
-  border: '#E2E8F0',
-  primary: '#2563EB',
-  primarySoft: '#DBEAFE',
-  danger: '#DC2626',
-  dangerSoft: '#FEE2E2',
-  warn: '#B45309',
-  warnSoft: '#FEF3C7',
-  ok: '#047857',
-  okSoft: '#D1FAE5',
+  bg: dynamic('#F3F5FA', '#0B1120'),
+  card: dynamic('#FFFFFF', '#172033'),
+  text: dynamic('#0F172A', '#F1F5F9'),
+  muted: dynamic('#64748B', '#94A3B8'),
+  border: dynamic('#E2E8F0', '#2A3650'),
+  primary: dynamic('#2563EB', '#60A5FA'),
+  primarySoft: dynamic('#DBEAFE', '#1E3A8A'),
+  danger: dynamic('#DC2626', '#F87171'),
+  dangerSoft: dynamic('#FEE2E2', '#4C1D1D'),
+  warn: dynamic('#B45309', '#FBBF24'),
+  warnSoft: dynamic('#FEF3C7', '#4A3410'),
+  ok: dynamic('#047857', '#34D399'),
+  okSoft: dynamic('#D1FAE5', '#064E3B'),
   plateBlue: '#0038A8',
 };
 
@@ -23,6 +33,7 @@ export const radius = 18;
 
 export const shadow = {
   shadowColor: '#0F172A',
+  // Koyu temada gölge görünmez; açık temadaki yumuşaklık korunur.
   shadowOpacity: 0.06,
   shadowRadius: 12,
   shadowOffset: { width: 0, height: 4 },

@@ -6,7 +6,8 @@ import { useCallback } from 'react';
 export function useStatusBar(style: 'light' | 'dark') {
   useFocusEffect(
     useCallback(() => {
-      setStatusBarStyle(style);
+      // 'dark' isteyen ekranlar temaya göre değişir; gradyan başlıklar hep açık.
+      setStatusBarStyle(style === 'dark' ? 'auto' : 'light');
     }, [style]),
   );
 }
